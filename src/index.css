@@ -2,48 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Psychology Practice Design System - Calm, Professional, Trustworthy
-All colors MUST be HSL.
+/* Warm Organic Design System - Earth Tones & Minimalist Elegance
+Modern Magazine Style - All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    /* Warm, calming background palette */
-    --background: 45 25% 98%;
-    --foreground: 220 15% 25%;
+    /* Warm earth tone palette */
+    --background: 30 15% 97%;
+    --foreground: 25 20% 15%;
 
-    /* Card system with soft edges */
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 25%;
+    /* Card system with organic warmth */
+    --card: 35 25% 98%;
+    --card-foreground: 25 20% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 25%;
+    --popover: 35 25% 98%;
+    --popover-foreground: 25 20% 15%;
 
-    /* Primary: Soft, trustworthy blue */
-    --primary: 210 35% 55%;
-    --primary-foreground: 0 0% 100%;
-    --primary-soft: 210 25% 85%;
+    /* Primary: Rich terracotta */
+    --primary: 15 45% 55%;
+    --primary-foreground: 35 25% 98%;
+    --primary-soft: 15 25% 85%;
+    --primary-dark: 15 55% 45%;
 
-    /* Secondary: Warm beige tones */
-    --secondary: 45 20% 92%;
-    --secondary-foreground: 220 15% 25%;
-    --secondary-warm: 45 25% 88%;
+    /* Secondary: Warm sand tones */
+    --secondary: 35 20% 88%;
+    --secondary-foreground: 25 20% 15%;
+    --secondary-warm: 40 25% 92%;
+    --secondary-dark: 35 25% 75%;
 
-    /* Muted: Light, airy feel */
-    --muted: 45 15% 94%;
-    --muted-foreground: 220 10% 55%;
+    /* Muted: Soft cream */
+    --muted: 40 15% 94%;
+    --muted-foreground: 25 15% 45%;
 
-    /* Accent: Gentle green for trust and growth */
-    --accent: 150 20% 75%;
-    --accent-foreground: 220 15% 25%;
-    --accent-soft: 150 15% 90%;
+    /* Accent: Sage green for organic feel */
+    --accent: 85 15% 65%;
+    --accent-foreground: 25 20% 15%;
+    --accent-soft: 85 10% 85%;
+    --accent-dark: 85 20% 50%;
+
+    /* Additional earth tones */
+    --clay: 20 35% 70%;
+    --clay-soft: 20 20% 90%;
+    --moss: 95 20% 45%;
+    --moss-soft: 95 15% 85%;
+    --stone: 30 8% 75%;
+    --stone-soft: 30 8% 90%;
 
     --destructive: 0 65% 65%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 35 25% 98%;
 
-    --border: 45 15% 88%;
-    --input: 45 15% 94%;
-    --ring: 210 35% 55%;
+    --border: 35 15% 88%;
+    --input: 40 15% 94%;
+    --ring: 15 45% 55%;
+
+    --radius: 1rem;
 
     --radius: 0.5rem;
 

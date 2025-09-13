@@ -23,11 +23,13 @@ export default {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
           soft: "hsl(var(--primary-soft))",
+          dark: "hsl(var(--primary-dark))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
           warm: "hsl(var(--secondary-warm))",
+          dark: "hsl(var(--secondary-dark))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -41,6 +43,7 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
           soft: "hsl(var(--accent-soft))",
+          dark: "hsl(var(--accent-dark))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -49,6 +52,18 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        clay: {
+          DEFAULT: "hsl(var(--clay))",
+          soft: "hsl(var(--clay-soft))",
+        },
+        moss: {
+          DEFAULT: "hsl(var(--moss))",
+          soft: "hsl(var(--moss-soft))",
+        },
+        stone: {
+          DEFAULT: "hsl(var(--stone))",
+          soft: "hsl(var(--stone-soft))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -62,9 +77,10 @@ export default {
         },
       },
       backgroundImage: {
-        'gradient-soft': 'linear-gradient(135deg, hsl(var(--primary-soft)), hsl(var(--accent-soft)))',
-        'gradient-warm': 'linear-gradient(135deg, hsl(var(--secondary-warm)), hsl(var(--muted)))',
-        'gradient-hero': 'linear-gradient(135deg, hsl(var(--background)), hsl(var(--secondary)))',
+        'gradient-earth': 'linear-gradient(135deg, hsl(var(--clay-soft)), hsl(var(--secondary-warm)))',
+        'gradient-organic': 'linear-gradient(145deg, hsl(var(--moss-soft)), hsl(var(--accent-soft)))',
+        'gradient-warm': 'linear-gradient(120deg, hsl(var(--primary-soft)), hsl(var(--clay-soft)))',
+        'gradient-hero': 'linear-gradient(135deg, hsl(var(--secondary-warm)) 0%, hsl(var(--moss-soft)) 50%, hsl(var(--clay-soft)) 100%)',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -72,6 +88,12 @@ export default {
         sm: "calc(var(--radius) - 4px)",
         xl: "calc(var(--radius) + 4px)",
         "2xl": "calc(var(--radius) + 8px)",
+        "3xl": "calc(var(--radius) + 12px)",
+        organic: "2rem 1rem 2rem 1rem",
+      },
+      fontFamily: {
+        'serif': ['Playfair Display', 'Georgia', 'serif'],
+        'sans': ['Inter', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {

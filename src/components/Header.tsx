@@ -1,66 +1,128 @@
 import { Button } from "@/components/ui/button";
-import { Phone, Mail } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="container mx-auto px-4 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/30">
+      <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <h1 className="text-xl font-semibold text-foreground">
-              Strefa Wsparcia
-            </h1>
-            <span className="text-muted-foreground">–</span>
-            <span className="text-lg text-primary">Marta Rokicińska</span>
+          {/* Logo */}
+          <div className="flex items-center">
+            <div className="flex flex-col">
+              <span className="text-xl font-light text-foreground tracking-wide">
+                Strefa Wsparcia
+              </span>
+              <span className="text-sm text-primary font-medium -mt-1">
+                Marta Rokicińska
+              </span>
+            </div>
           </div>
           
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center space-x-8">
             <button 
               onClick={() => scrollToSection('about')}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
             >
               O mnie
             </button>
             <button 
               onClick={() => scrollToSection('services')}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
             >
               Oferta
             </button>
             <button 
               onClick={() => scrollToSection('approach')}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
             >
               Podejście
             </button>
             <button 
               onClick={() => scrollToSection('testimonials')}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
             >
               Opinie
             </button>
             <button 
               onClick={() => scrollToSection('contact')}
-              className="text-foreground hover:text-primary transition-colors"
+              className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
             >
               Kontakt
             </button>
           </nav>
 
-          <div className="flex items-center space-x-2">
+          {/* CTA Button & Mobile Menu */}
+          <div className="flex items-center space-x-4">
             <Button 
               onClick={() => scrollToSection('contact')}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl px-6"
+              className="hidden md:flex bg-primary hover:bg-primary-dark text-primary-foreground px-6 py-2 rounded-3xl font-medium text-sm transition-all duration-300"
             >
               Umów wizytę
             </Button>
+            
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="lg:hidden p-2 text-foreground hover:text-primary transition-colors"
+            >
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <nav className="lg:hidden mt-4 pb-4 border-t border-border/30 pt-4">
+            <div className="flex flex-col space-y-3">
+              <button 
+                onClick={() => scrollToSection('about')}
+                className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
+              >
+                O mnie
+              </button>
+              <button 
+                onClick={() => scrollToSection('services')}
+                className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
+              >
+                Oferta
+              </button>
+              <button 
+                onClick={() => scrollToSection('approach')}
+                className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
+              >
+                Podejście
+              </button>
+              <button 
+                onClick={() => scrollToSection('testimonials')}
+                className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
+              >
+                Opinie
+              </button>
+              <button 
+                onClick={() => scrollToSection('contact')}
+                className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
+              >
+                Kontakt
+              </button>
+              <Button 
+                onClick={() => scrollToSection('contact')}
+                className="md:hidden mt-2 bg-primary hover:bg-primary-dark text-primary-foreground rounded-3xl font-medium text-sm"
+              >
+                Umów wizytę
+              </Button>
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   );

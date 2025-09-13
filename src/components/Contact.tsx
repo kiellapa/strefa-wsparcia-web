@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Send, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Send, Phone, Mail, MapPin, Clock, MessageCircle, Heart } from "lucide-react";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -13,30 +13,30 @@ const Contact = () => {
     name: '',
     email: '',
     phone: '',
-    subject: '',
-    message: ''
+    subject: 'pierwsza-wizyta',
+    message: '',
+    preferredContact: 'email'
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Here you would typically send the form data to your backend
     toast({
       title: "Wiadomość wysłana",
-      description: "Odpowiem na Twoją wiadomość w ciągu 24 godzin.",
+      description: "Dziękuję za kontakt. Odpowiem w ciągu 24 godzin.",
     });
     
-    // Reset form
     setFormData({
       name: '',
       email: '',
       phone: '',
-      subject: '',
-      message: ''
+      subject: 'pierwsza-wizyta',
+      message: '',
+      preferredContact: 'email'
     });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -44,179 +44,252 @@ const Contact = () => {
     }));
   };
 
+  const contactMethods = [
+    {
+      icon: Phone,
+      title: "Telefon",
+      value: "+48 123 456 789",
+      description: "Pon-Pt: 9:00-17:00",
+      action: "Zadzwoń teraz"
+    },
+    {
+      icon: Mail,
+      title: "Email", 
+      value: "kontakt@strefawsparcia.pl",
+      description: "Odpowiedź w 24h",
+      action: "Napisz email"
+    },
+    {
+      icon: MessageCircle,
+      title: "Bezpłatna konsultacja",
+      value: "15 minut",
+      description: "Telefonicznie",
+      action: "Umów rozmowę"
+    }
+  ];
+
   return (
-    <section id="contact" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light text-foreground mb-6">
-              Kontakt
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Zrobimy pierwszy krok razem. Napisz do mnie, a odpowiem najszybciej jak to możliwe.
-            </p>
-          </div>
+    <section id="contact" className="py-24 bg-background">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        {/* Header */}
+        <div className="text-center mb-20">
+          <span className="text-sm font-medium text-primary tracking-wider uppercase mb-2 block">
+            Kontakt
+          </span>
+          <h2 className="text-4xl lg:text-5xl font-light text-foreground mb-8 font-serif">
+            Porozmawiajmy
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Pierwszy krok jest zawsze najtrudniejszy. Jestem tu, żeby go ułatwić. 
+            Skontaktuj się ze mną w sposób, który jest dla Ciebie najwygodniejszy.
+          </p>
+        </div>
 
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Contact Information */}
-            <div className="space-y-6">
-              <Card className="p-6 bg-card border-border/50 rounded-3xl">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-primary-soft rounded-2xl flex items-center justify-center">
-                    <Phone className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">Telefon</h3>
-                    <p className="text-muted-foreground">+48 123 456 789</p>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Dostępna od poniedziałku do piątku, 9:00-17:00
-                </p>
-              </Card>
-
-              <Card className="p-6 bg-card border-border/50 rounded-3xl">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-primary-soft rounded-2xl flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">Email</h3>
-                    <p className="text-muted-foreground">kontakt@strefawsparcia.pl</p>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Odpowiadam w ciągu 24 godzin
-                </p>
-              </Card>
-
-              <Card className="p-6 bg-card border-border/50 rounded-3xl">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-primary-soft rounded-2xl flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-foreground">Adres</h3>
-                    <p className="text-muted-foreground">ul. Markowska 22<br />Warszawa</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6 bg-accent-soft border-border/50 rounded-3xl">
-                <div className="flex items-center space-x-4 mb-4">
-                  <Clock className="w-6 h-6 text-accent" />
-                  <h3 className="font-semibold text-foreground">Bezpłatna konsultacja</h3>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Oferuję 15-minutową bezpłatną konsultację telefoniczną, 
-                  podczas której możemy porozmawiać o Twoich potrzebach.
-                </p>
-              </Card>
+        <div className="grid lg:grid-cols-12 gap-16">
+          
+          {/* Contact methods */}
+          <div className="lg:col-span-4">
+            <div className="space-y-6 mb-8">
+              {contactMethods.map((method, index) => {
+                const IconComponent = method.icon;
+                return (
+                  <Card key={index} className="p-6 bg-card border-border/30 rounded-3xl hover:shadow-lg transition-all duration-300 group">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-12 h-12 bg-primary-soft rounded-2xl flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
+                        <IconComponent className="w-6 h-6" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-medium text-foreground mb-1">{method.title}</h3>
+                        <p className="text-foreground font-medium text-lg mb-1">{method.value}</p>
+                        <p className="text-sm text-muted-foreground mb-3">{method.description}</p>
+                        <button className="text-sm text-primary hover:text-primary-dark font-medium">
+                          {method.action} →
+                        </button>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
             </div>
 
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <Card className="p-8 bg-card border-border/50 rounded-3xl">
-                <h3 className="text-2xl font-light text-foreground mb-6">
+            {/* Office info */}
+            <Card className="p-6 bg-gradient-earth border-0 rounded-3xl">
+              <div className="flex items-center space-x-3 mb-4">
+                <MapPin className="w-5 h-5 text-primary" />
+                <h3 className="font-medium text-foreground">Gabinet</h3>
+              </div>
+              
+              <p className="text-foreground mb-2">ul. Markowska 22</p>
+              <p className="text-foreground mb-4">00-000 Warszawa</p>
+              
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <Clock className="w-4 h-4" />
+                <span>Pon-Pt: 9:00-18:00, Sob: 10:00-14:00</span>
+              </div>
+            </Card>
+
+            {/* Trust badge */}
+            <Card className="p-6 bg-moss-soft/30 border-border/30 rounded-3xl mt-6">
+              <div className="flex items-center space-x-3 mb-3">
+                <Heart className="w-5 h-5 text-moss" />
+                <h4 className="font-medium text-foreground">Bezpieczna przestrzeń</h4>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Zapewniam pełną poufność i profesjonalizm. Twoja prywatność 
+                jest dla mnie priorytetem.
+              </p>
+            </Card>
+          </div>
+          
+          {/* Contact form */}
+          <div className="lg:col-span-8">
+            <Card className="p-8 bg-card border-border/30 rounded-3xl">
+              <div className="mb-8">
+                <h3 className="text-2xl font-light text-foreground mb-2 font-serif">
                   Napisz do mnie
                 </h3>
+                <p className="text-muted-foreground">
+                  Wypełnij formularz, a skontaktuję się z Tobą w ciągu 24 godzin
+                </p>
+              </div>
+              
+              <form onSubmit={handleSubmit} className="space-y-6">
                 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="text-foreground font-medium">
-                        Imię *
-                      </Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        type="text"
-                        required
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className="rounded-2xl border-border/50"
-                        placeholder="Twoje imię"
-                      />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-foreground font-medium">
-                        Telefon
-                      </Label>
-                      <Input
-                        id="phone"
-                        name="phone"
-                        type="tel"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="rounded-2xl border-border/50"
-                        placeholder="+48 123 456 789"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-foreground font-medium">
-                      Email *
-                    </Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="rounded-2xl border-border/50"
-                      placeholder="twoj@email.com"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="subject" className="text-foreground font-medium">
-                      Temat
-                    </Label>
-                    <Input
-                      id="subject"
-                      name="subject"
-                      type="text"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      className="rounded-2xl border-border/50"
-                      placeholder="Krótki temat wiadomości"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message" className="text-foreground font-medium">
-                      Wiadomość *
-                    </Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      required
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      className="rounded-2xl border-border/50 min-h-32"
-                      placeholder="Opowiedz mi o swojej sytuacji i jak mogę Ci pomóc..."
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl py-6 text-lg font-medium inline-flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transition-all duration-300"
+                {/* Subject selection */}
+                <div className="space-y-2">
+                  <Label className="text-foreground font-medium">
+                    Jak mogę Ci pomóc? *
+                  </Label>
+                  <select
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    className="w-full p-3 rounded-3xl border border-border bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-transparent"
                   >
-                    <Send className="w-5 h-5" />
-                    <span>Wyślij wiadomość</span>
-                  </Button>
+                    <option value="pierwsza-wizyta">Chcę umówić pierwszą wizytę</option>
+                    <option value="konsultacja">Bezpłatna konsultacja telefoniczna</option>
+                    <option value="terapia-par">Terapia par</option>
+                    <option value="sesje-online">Sesje online</option>
+                    <option value="pytania">Mam pytania o terapię</option>
+                    <option value="inne">Inne</option>
+                  </select>
+                </div>
+                
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="name" className="text-foreground font-medium">
+                      Imię *
+                    </Label>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="rounded-3xl border-border/50 py-3 focus:ring-2 focus:ring-primary"
+                      placeholder="Twoje imię"
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className="text-foreground font-medium">
+                      Telefon
+                    </Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="rounded-3xl border-border/50 py-3 focus:ring-2 focus:ring-primary"
+                      placeholder="+48 123 456 789"
+                    />
+                  </div>
+                </div>
 
-                  <p className="text-xs text-muted-foreground text-center">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-foreground font-medium">
+                    Email *
+                  </Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="rounded-3xl border-border/50 py-3 focus:ring-2 focus:ring-primary"
+                    placeholder="twoj@email.com"
+                  />
+                </div>
+
+                {/* Preferred contact method */}
+                <div className="space-y-2">
+                  <Label className="text-foreground font-medium">
+                    Preferowany sposób kontaktu
+                  </Label>
+                  <div className="flex space-x-4">
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="preferredContact"
+                        value="email"
+                        checked={formData.preferredContact === 'email'}
+                        onChange={handleInputChange}
+                        className="text-primary focus:ring-primary"
+                      />
+                      <span className="text-muted-foreground">Email</span>
+                    </label>
+                    <label className="flex items-center space-x-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="preferredContact"
+                        value="phone"
+                        checked={formData.preferredContact === 'phone'}
+                        onChange={handleInputChange}
+                        className="text-primary focus:ring-primary"
+                      />
+                      <span className="text-muted-foreground">Telefon</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="message" className="text-foreground font-medium">
+                    Wiadomość *
+                  </Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    required
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    className="rounded-3xl border-border/50 min-h-32 py-3 focus:ring-2 focus:ring-primary resize-none"
+                    placeholder="Opowiedz mi krótko o swojej sytuacji. Co Cię motywuje do szukania pomocy? Jak mogę Ci najlepiej pomóc?"
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full bg-primary hover:bg-primary-dark text-primary-foreground rounded-3xl py-6 text-lg font-medium inline-flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <Send className="w-5 h-5" />
+                  <span>Wyślij wiadomość</span>
+                </Button>
+
+                <div className="bg-stone-soft/50 p-4 rounded-2xl">
+                  <p className="text-xs text-muted-foreground text-center leading-relaxed">
                     Wypełniając formularz, akceptujesz{" "}
-                    <a href="#" className="text-primary hover:underline">politykę prywatności</a>{" "}
-                    i wyrażasz zgodę na przetwarzanie danych osobowych.
+                    <button className="text-primary hover:underline font-medium">politykę prywatności</button>{" "}
+                    i wyrażasz zgodę na przetwarzanie danych osobowych w celu udzielenia odpowiedzi. 
+                    Twoje dane są bezpieczne i nie będą udostępniane osobom trzecim.
                   </p>
-                </form>
-              </Card>
-            </div>
+                </div>
+              </form>
+            </Card>
           </div>
         </div>
       </div>
