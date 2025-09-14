@@ -12,6 +12,7 @@ import Services from "./components/Services";
 import Approach from "./components/Approach";
 import Testimonials from "./components/Testimonials";
 import PracticalInfo from "./components/PracticalInfo";
+import Blog from "./components/Blog";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
@@ -34,6 +35,7 @@ const App = () => (
                 <Approach />
                 <Testimonials />
                 <PracticalInfo />
+                <Blog />
                 <Contact />
               </main>
               <Footer />

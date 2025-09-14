@@ -54,6 +54,12 @@ const Header = () => {
               Opinie
             </button>
             <button 
+              onClick={() => scrollToSection('blog')}
+              className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
+            >
+              Blog
+            </button>
+            <button 
               onClick={() => scrollToSection('contact')}
               className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
             >
@@ -113,6 +119,12 @@ const Header = () => {
                 className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
               >
                 Kontakt
+              </button>
+              <button 
+                onClick={() => scrollToSection('blog')}
+                className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
+              >
+                Blog
               </button>
               <Button 
                 onClick={() => scrollToSection('contact')}
