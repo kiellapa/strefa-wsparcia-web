@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Sparkles } from "lucide-react";
 import organicHeroBg from "@/assets/organic-hero-bg.jpg";
+import therapistPortrait from "@/assets/therapist-portrait.jpg";
 
 const Hero = () => {
   const scrollToContact = () => {
@@ -95,15 +96,14 @@ const Hero = () => {
         <div className="relative hidden lg:block animate-scale-in animate-delay-300">
           <div className="relative">
             {/* Main organic shape */}
-            <div className="w-96 h-96 bg-gradient-organic rounded-[60%_40%_30%_70%/60%_30%_70%_40%] shadow-2xl relative overflow-hidden animate-float">
-              {/* Inner decorative elements */}
-              <div className="absolute inset-8 bg-card/50 rounded-[50%_50%_50%_50%/60%_40%_60%_40%] flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center animate-gentle-pulse">
-                    <Sparkles className="w-8 h-8 text-primary" />
-                  </div>
-                  <p className="text-sm text-muted-foreground font-medium">Bezpieczna przestrzeń<br />dla Twojego wzrostu</p>
-                </div>
+            <div className="w-96 h-96 bg-gradient-organic rounded-[60%_40%_30%_70%/60%_30%_70%_40%] shadow-2xl relative overflow-hidden">
+              {/* Profile photo */}
+              <div className="absolute inset-8 rounded-[50%_50%_50%_50%/60%_40%_60%_40%] overflow-hidden">
+                <img 
+                  src={therapistPortrait} 
+                  alt="Marta Rokicińska - Psychoterapeutka"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
             
