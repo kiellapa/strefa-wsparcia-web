@@ -1,11 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
   
   const scrollToSection = (id: string) => {
+    if (!isHomePage) {
+      // Navigate to home page first, then scroll
+      window.location.href = `/#${id}`;
+      return;
+    }
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: 'smooth' });
     setIsMenuOpen(false);
@@ -16,7 +24,7 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <div className="flex flex-col">
               <span className="text-xl font-light text-foreground tracking-wide">
                 Strefa Wsparcia
@@ -25,7 +33,7 @@ const Header = () => {
                 Marta Rokicińska
               </span>
             </div>
-          </div>
+          </Link>
           
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
@@ -53,12 +61,21 @@ const Header = () => {
             >
               Opinie
             </button>
-            <button 
-              onClick={() => scrollToSection('blog')}
-              className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
-            >
-              Blog
-            </button>
+            {isHomePage ? (
+              <button 
+                onClick={() => scrollToSection('blog')}
+                className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
+              >
+                Blog
+              </button>
+            ) : (
+              <Link 
+                to="/blog"
+                className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
+              >
+                Blog
+              </Link>
+            )}
             <button 
               onClick={() => scrollToSection('contact')}
               className="text-foreground hover:text-primary transition-colors text-sm font-medium tracking-wide"
@@ -120,12 +137,21 @@ const Header = () => {
               >
                 Kontakt
               </button>
-              <button 
-                onClick={() => scrollToSection('blog')}
-                className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
-              >
-                Blog
-              </button>
+              {isHomePage ? (
+                <button 
+                  onClick={() => scrollToSection('blog')}
+                  className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
+                >
+                  Blog
+                </button>
+              ) : (
+                <Link 
+                  to="/blog"
+                  className="text-left text-foreground hover:text-primary transition-colors text-sm font-medium"
+                >
+                  Blog
+                </Link>
+              )}
               <Button 
                 onClick={() => scrollToSection('contact')}
                 className="md:hidden mt-2 bg-primary hover:bg-primary-dark text-primary-foreground rounded-3xl font-medium text-sm"

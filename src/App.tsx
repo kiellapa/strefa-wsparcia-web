@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import BlogPage from "./pages/BlogPage";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -37,6 +38,15 @@ const App = () => (
                 <PracticalInfo />
                 <Blog />
                 <Contact />
+              </main>
+              <Footer />
+            </div>
+          } />
+          <Route path="/blog" element={
+            <div className="min-h-screen bg-background">
+              <Header />
+              <main>
+                <BlogPage />
               </main>
               <Footer />
             </div>

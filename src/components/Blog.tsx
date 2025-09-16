@@ -1,50 +1,49 @@
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, BookOpen } from "lucide-react";
+import { Link } from "react-router-dom";
+import { createWordPressService, BlogPost, fallbackPosts } from "@/services/wordpress";
 import scientificResearch from "@/assets/scientific-research.jpg";
 
 const Blog = () => {
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Jak rozpoznać, że potrzebujesz wsparcia psychologicznego?",
-      excerpt: "Poznaj pierwsze sygnały, które mogą wskazywać na potrzebę skorzystania z terapii. Nie czekaj aż będzie za późno.",
-      date: "2024-01-15",
-      readTime: "5 min",
-      category: "Poradnik",
-      image: scientificResearch,
-      featured: true
-    },
-    {
-      id: 2,
-      title: "CBT w praktyce: jak działa terapia poznawczo-behawioralna",
-      excerpt: "Dowiedz się, na czym polega najpopularniejsza forma psychoterapii i jak może pomóc w rozwiązaniu Twoich problemów.",
-      date: "2024-01-10",
-      readTime: "7 min",
-      category: "Nauka",
-      featured: false
-    },
-    {
-      id: 3,
-      title: "Radzenie sobie ze stresem w codziennym życiu",
-      excerpt: "Praktyczne techniki, które możesz zastosować już dzisiaj, aby lepiej radzić sobie z napięciem i presją.",
-      date: "2024-01-05",
-      readTime: "4 min",
-      category: "Praktyka",
-      featured: false
-    },
-    {
-      id: 4,
-      title: "Terapia schematów: praca z głębokimi wzorcami",
-      excerpt: "Jak dzieciństwo wpływa na nasze dorosłe życie i jak można zmienić utrwalone schematy myślenia.",
-      date: "2023-12-28",
-      readTime: "8 min",
-      category: "Nauka",
-      featured: false
-    }
-  ];
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const categories = ["Wszystkie", "Poradnik", "Nauka", "Praktyka"];
+  // You'll need to replace this with your actual WordPress URL
+  const WORDPRESS_URL = "https://your-wordpress-site.com"; // REPLACE WITH YOUR WORDPRESS URL
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const wordpressService = createWordPressService(WORDPRESS_URL);
+        const fetchedPosts = await wordpressService.getPosts(4); // Get only 4 posts for homepage
+        
+        if (fetchedPosts.length > 0) {
+          setPosts(fetchedPosts);
+        } else {
+          // Use fallback posts with images
+          const postsWithImages = fallbackPosts.map(post => ({
+            ...post,
+            image: post.featured ? scientificResearch : undefined
+          }));
+          setPosts(postsWithImages);
+        }
+      } catch (error) {
+        console.error("Error loading posts:", error);
+        // Use fallback posts
+        const postsWithImages = fallbackPosts.map(post => ({
+          ...post,
+          image: post.featured ? scientificResearch : undefined
+        }));
+        setPosts(postsWithImages);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <section id="blog" className="py-24 bg-background">
@@ -65,26 +64,30 @@ const Blog = () => {
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {categories.map((category) => (
-            <Button
-              key={category}
-              variant={category === "Wszystkie" ? "default" : "outline"}
-              className={`rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${
-                category === "Wszystkie" 
-                  ? "bg-primary text-primary-foreground hover:bg-primary-dark" 
-                  : "border-border text-muted-foreground hover:border-primary hover:text-primary"
-              }`}
+        {/* View All Button */}
+        <div className="flex justify-center mb-12">
+          <Link to="/blog">
+            <Button 
+              variant="outline"
+              className="rounded-full px-8 py-3 text-sm font-medium border-border text-muted-foreground hover:border-primary hover:text-primary transition-all duration-300"
             >
-              {category}
+              Zobacz wszystkie artykuły
+              <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
-          ))}
+          </Link>
         </div>
 
-        {/* Featured Post */}
-        <div className="mb-16">
-          {blogPosts.filter(post => post.featured).map((post) => (
+        {/* Loading State */}
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-muted-foreground">Ładowanie artykułów...</p>
+          </div>
+        ) : (
+          <>
+            {/* Featured Post */}
+            <div className="mb-16">
+              {posts.filter(post => post.featured).map((post) => (
             <Card key={post.id} className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-xl transition-all duration-500">
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="relative overflow-hidden">
@@ -133,9 +136,9 @@ const Blog = () => {
           ))}
         </div>
 
-        {/* Other Posts Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.filter(post => !post.featured).map((post, index) => (
+            {/* Other Posts Grid */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {posts.filter(post => !post.featured).map((post, index) => (
             <Card 
               key={post.id} 
               className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
@@ -178,10 +181,12 @@ const Blog = () => {
                   Czytaj więcej
                   <ArrowRight className="w-4 h-4 ml-1" />
                 </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
+                </div>
+              </Card>
+            ))}
+            </div>
+          </>
+        )}
 
         {/* Newsletter CTA */}
         <Card className="mt-16 bg-gradient-earth rounded-3xl p-8 lg:p-12 text-center">
