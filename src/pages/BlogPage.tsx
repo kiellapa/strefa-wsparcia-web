@@ -15,7 +15,7 @@ const BlogPage = () => {
   const [loading, setLoading] = useState(true);
 
   // You'll need to replace this with your actual WordPress URL
-  const WORDPRESS_URL = "https://your-wordpress-site.com"; // REPLACE WITH YOUR WORDPRESS URL
+  const WORDPRESS_URL = "https://www.strefawsparcia.com/"; // REPLACE WITH YOUR WORDPRESS URL
 
   useEffect(() => {
     const fetchPosts = async () => {
