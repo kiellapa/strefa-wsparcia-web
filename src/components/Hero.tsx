@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Sparkles } from "lucide-react";
-import organicHeroBg from "@/assets/organic-hero-bg.jpg";
+import watercolorHeroBg from "@/assets/watercolor-hero-bg.jpg";
 import therapistPortrait from "@/assets/therapist-portrait.jpg";
 
 const Hero = () => {
@@ -19,7 +19,7 @@ const Hero = () => {
       {/* Background with organic overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${organicHeroBg})` }}
+        style={{ backgroundImage: `url(${watercolorHeroBg})` }}
       />
       <div className="absolute inset-0 bg-gradient-hero/70" />
       <div className="absolute inset-0 bg-black/20" />
