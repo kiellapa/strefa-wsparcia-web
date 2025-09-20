@@ -38,7 +38,7 @@ const Hero = () => {
             <span className="text-sm text-primary font-medium">Profesjonalna psychoterapia</span>
           </div>
           
-          <div className="bg-card/80 backdrop-blur-sm rounded-3xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+          <div className="p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light text-foreground mb-4 sm:mb-6 leading-tight animate-fade-in-up animate-delay-100 drop-shadow-lg">
               <span className="block font-serif">Strefa</span>
               <span className="block text-primary font-medium">Wsparcia</span>
