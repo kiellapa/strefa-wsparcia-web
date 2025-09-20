@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { Calendar, Clock, ArrowRight, BookOpen, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { createWordPressService, BlogPost, fallbackPosts } from "@/services/wordpress";
@@ -15,7 +16,7 @@ const BlogPage = () => {
   const [loading, setLoading] = useState(true);
 
   // You'll need to replace this with your actual WordPress URL
-  const WORDPRESS_URL = "https://your-wordpress-site.com"; // REPLACE WITH YOUR WORDPRESS URL
+  const WORDPRESS_URL = "https://www.strefawsparcia.com/"; // REPLACE WITH YOUR WORDPRESS URL
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -195,13 +196,15 @@ const BlogPage = () => {
                     {post.excerpt}
                   </p>
                   
-                  <Button 
-                    variant="ghost" 
-                    className="p-0 h-auto text-primary hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform"
-                  >
-                    Czytaj więcej
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </Button>
+                  <Link to={`/blog/${post.id}`}>
+                    <Button 
+                      variant="ghost" 
+                      className="p-0 h-auto text-primary hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform"
+                    >
+                      Czytaj więcej
+                      <ArrowRight className="w-4 h-4 ml-1" />
+                    </Button>
+                  </Link>
                 </div>
               </Card>
             ))}
