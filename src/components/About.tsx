@@ -17,7 +17,8 @@ const About = () => {
     "Terapia Poznawczo-Behawioralna",
     "ACT - Akceptacja i Zaangażowanie", 
     "Terapia Schematów",
-    "Terapia Par"
+    "Terapia Uzależnień",
+    "Terapia osób z ADHD i spektrum autyzmu",
   ];
 
   const values = [
@@ -71,8 +72,8 @@ const About = () => {
             <div className="absolute -top-4 -right-4 bg-primary text-primary-foreground p-3 rounded-2xl shadow-lg research-badge">
               <div className="text-center">
                 <BookOpen className="w-6 h-6 mx-auto mb-1" />
-                <div className="text-xs font-medium">Certyfikowana</div>
-                <div className="text-xs">Terapeutka</div>
+                <div className="text-xs font-medium">Terapeutka</div>
+                <div className="text-xs">W Procesie Certyfikacji</div>
               </div>
             </div>
             
@@ -87,10 +88,16 @@ const About = () => {
                 Witaj, jestem Marta
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Jestem psychoterapeutką z kilkuletnim doświadczeniem w pracy z osobami 
-                dorosłymi. Specjalizuję się w terapii poznawczo-behawioralnej (CBT), 
-                terapii akceptacji i zaangażowania (ACT) oraz terapii schematów.
+                Jestem psycholożką i psychoterapeutką z wieloletnim doświadczeniem w pracy z osobami 
+                dorosłymi, dziećmi i młodzieżą. Specjalizuję się w terapii poznawczo-behawioralnej (CBT). W swojej pracy korzystam z metod
+                terapii akceptacji i zaangażowania (ACT) oraz terapii schematów. Swoją pracę poddaję regularnej superwizji.
               </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Aktualnie pracuję w Klinice Psychiatrii Wieku Rozwojowego
+                Uniwersyteckiego Centrum Klinicznego Warszawskiego Uniwersytetu Medycznego,
+                Centrum CBT w Warszawie oraz współpracuję z prof. Mateuszem Golą przy prowadzeniu terapii uzależnień.
+              </p>
+              <p className="text-muted-foreground leading-relaxed"><br></br></p>
               <p className="text-muted-foreground leading-relaxed">
                 Wierzę, że każdy człowiek ma w sobie siłę do zmiany i wzrostu. 
                 Moją rolą jest towarzyszenie Ci w tej podróży i dostarczanie narzędzi, 

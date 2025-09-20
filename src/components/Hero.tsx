@@ -76,15 +76,19 @@ const Hero = () => {
           {/* Stats - with scientific credibility */}
           <div className="flex flex-wrap items-center gap-4 sm:gap-6 lg:gap-8 animate-fade-in animate-delay-400">
             <div className="research-badge">
-              <div className="text-xl sm:text-2xl font-bold text-foreground">3+</div>
+              <div className="text-xl sm:text-2xl font-bold text-foreground">13+</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Lata doświadczenia</div>
             </div>
             <div className="h-6 sm:h-8 w-px bg-border"></div>
             <div className="research-badge">
-              <div className="text-xl sm:text-2xl font-bold text-foreground">50+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Zadowolonych klientów</div>
+              <div className="text-xl sm:text-2xl font-bold text-foreground">100+</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Dotychczasowych klientów terapeutycznych</div>
             </div>
             <div className="h-6 sm:h-8 w-px bg-border"></div>
+            <div className="research-badge">
+              <div className="text-xl sm:text-2xl font-bold text-foreground">500+</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Godzin szkoleń</div>
+            </div>
             <div className="research-badge">
               <div className="text-xl sm:text-2xl font-bold text-foreground">24h</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Odpowiedź na email</div>

@@ -22,7 +22,7 @@ const BlogPostPage = () => {
         setPost(fetchedPost);
       } catch (error) {
         console.error("Error loading post:", error);
-        // W przypadku błędu, spróbuj znaleźć post w danych zastępczych
+        // W przypadku błędu, spróbuj znaleźć post w danych zastępczynoch
         const fallback = fallbackPosts.find(p => p.id === parseInt(id, 10));
         setPost(fallback || null);
       } finally {
