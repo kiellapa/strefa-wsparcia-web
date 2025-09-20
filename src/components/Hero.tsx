@@ -76,20 +76,18 @@ const Hero = () => {
           {/* Stats - with scientific credibility */}
           <div className="flex flex-wrap items-center gap-4 sm:gap-6 lg:gap-8 animate-fade-in animate-delay-400">
             <div className="research-badge">
-              <div className="text-xl sm:text-2xl font-bold text-foreground">3+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Lata doświadczenia</div>
-            </div>
-            <div className="h-6 sm:h-8 w-px bg-border"></div>
-            <div className="research-badge">
-              <div className="text-xl sm:text-2xl font-bold text-foreground">50+</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Zadowolonych klientów</div>
-            </div>
-            <div className="h-6 sm:h-8 w-px bg-border"></div>
-            <div className="research-badge">
-              <div className="text-xl sm:text-2xl font-bold text-foreground">24h</div>
-              <div className="text-xs sm:text-sm text-muted-foreground">Odpowiedź na email</div>
-            </div>
-          </div>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light text-foreground mb-4 sm:mb-6 leading-tight animate-fade-in-up animate-delay-100 drop-shadow-lg">
+          <span className="block font-serif">Strefa</span>
+          <span className="block text-primary font-medium">Wsparcia</span>
+        </h1>
+        
+        <div className="animate-slide-in-left animate-delay-200 mb-6 sm:mb-8">
+          <p className="text-base sm:text-lg text-primary font-medium mb-2 drop-shadow-md">
+            Marta Rokicińska
+          </p>
+          <p className="text-lg sm:text-xl text-foreground leading-relaxed drop-shadow-md">
+            Pomagam odnaleźć równowagę, odporność i spokój w codziennym życiu.
+          </p>
         </div>
         
         {/* Right Column - Visual Element */}
