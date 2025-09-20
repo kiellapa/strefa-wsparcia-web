@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Sparkles } from "lucide-react";
-import organicHeroBg from "@/assets/organic-hero-bg.jpg";
+import watercolorHeroBg from "@/assets/watercolor-hero-bg.jpg";
 import therapistPortrait from "@/assets/therapist-portrait.jpg";
 
 const Hero = () => {
@@ -19,7 +19,7 @@ const Hero = () => {
       {/* Background with organic overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${organicHeroBg})` }}
+        style={{ backgroundImage: `url(${watercolorHeroBg})` }}
       />
       <div className="absolute inset-0 bg-gradient-hero/70" />
       <div className="absolute inset-0 bg-black/20" />
@@ -30,7 +30,7 @@ const Hero = () => {
         <div className="absolute bottom-20 -left-32 w-80 h-80 bg-moss-soft/20 rounded-[40%_60%_70%_30%/40%_70%_30%_60%] animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center min-h-screen">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 lg:gap-16 items-center min-h-screen">
         {/* Left Column - Text Content */}
         <div className="text-left animate-fade-in">
           <div className="inline-flex items-center space-x-2 bg-clay-soft/70 px-4 py-2 rounded-full mb-8 animate-gentle-pulse backdrop-blur-sm">
@@ -38,27 +38,27 @@ const Hero = () => {
             <span className="text-sm text-primary font-medium">Profesjonalna psychoterapia</span>
           </div>
           
-          <div className="bg-card/80 backdrop-blur-sm rounded-3xl p-8 mb-8">
-            <h1 className="text-5xl lg:text-7xl font-light text-foreground mb-6 leading-tight animate-fade-in-up animate-delay-100 drop-shadow-lg">
+          <div className="bg-card/80 backdrop-blur-sm rounded-3xl p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light text-foreground mb-4 sm:mb-6 leading-tight animate-fade-in-up animate-delay-100 drop-shadow-lg">
               <span className="block font-serif">Strefa</span>
               <span className="block text-primary font-medium">Wsparcia</span>
             </h1>
             
             <div className="animate-slide-in-left animate-delay-200">
-              <p className="text-lg text-primary font-medium mb-2 drop-shadow-md">
+              <p className="text-base sm:text-lg text-primary font-medium mb-2 drop-shadow-md">
                 Marta Rokicińska
               </p>
-              <p className="text-xl text-foreground leading-relaxed max-w-md drop-shadow-md">
+              <p className="text-lg sm:text-xl text-foreground leading-relaxed drop-shadow-md">
                 Pomagam odnaleźć równowagę, odporność i spokój w codziennym życiu.
               </p>
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 mb-12 animate-scale-in animate-delay-300">
+          <div className="flex flex-col gap-3 sm:gap-4 mb-8 sm:mb-12 animate-scale-in animate-delay-300">
             <Button 
               onClick={scrollToContact}
               size="lg"
-              className="bg-primary hover:bg-primary-dark text-primary-foreground px-8 py-4 rounded-3xl font-medium text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover-lift"
+              className="bg-primary hover:bg-primary-dark text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-3xl font-medium text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover-lift w-full sm:w-auto"
             >
               Umów pierwszą wizytę
             </Button>
@@ -67,27 +67,27 @@ const Hero = () => {
               onClick={scrollToAbout}
               variant="outline"
               size="lg"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 rounded-3xl font-medium text-lg transition-all duration-300 hover-lift"
+              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-3xl font-medium text-base sm:text-lg transition-all duration-300 hover-lift w-full sm:w-auto"
             >
               Poznaj moje podejście
             </Button>
           </div>
           
           {/* Stats - with scientific credibility */}
-          <div className="flex items-center space-x-8 animate-fade-in animate-delay-400">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6 lg:gap-8 animate-fade-in animate-delay-400">
             <div className="research-badge">
-              <div className="text-2xl font-bold text-foreground">3+</div>
-              <div className="text-sm text-muted-foreground">Lata doświadczenia</div>
+              <div className="text-xl sm:text-2xl font-bold text-foreground">3+</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Lata doświadczenia</div>
             </div>
-            <div className="h-8 w-px bg-border"></div>
+            <div className="h-6 sm:h-8 w-px bg-border"></div>
             <div className="research-badge">
-              <div className="text-2xl font-bold text-foreground">50+</div>
-              <div className="text-sm text-muted-foreground">Zadowolonych klientów</div>
+              <div className="text-xl sm:text-2xl font-bold text-foreground">50+</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Zadowolonych klientów</div>
             </div>
-            <div className="h-8 w-px bg-border"></div>
+            <div className="h-6 sm:h-8 w-px bg-border"></div>
             <div className="research-badge">
-              <div className="text-2xl font-bold text-foreground">24h</div>
-              <div className="text-sm text-muted-foreground">Odpowiedź na email</div>
+              <div className="text-xl sm:text-2xl font-bold text-foreground">24h</div>
+              <div className="text-xs sm:text-sm text-muted-foreground">Odpowiedź na email</div>
             </div>
           </div>
         </div>
