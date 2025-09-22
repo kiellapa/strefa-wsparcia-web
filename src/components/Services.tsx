@@ -9,46 +9,46 @@ const Services = () => {
       icon: User,
       title: "Terapia indywidualna",
       price: "Od 250 zł",
-      duration: "50 min",
+      duration: "60 min",
       description: "Praca jeden na jeden w bezpiecznej przestrzeni gabinetu",
       features: [
         "Lęk i zaburzenia nastroju",
         "Problemy w relacjach",
-        "Kryzys życiowy",
-        "Rozwój osobisty",
-        "Trauma i PTSD"
+        "Kryzys życiowy, depresja",
+        "Trauma i PTSD",
+        "ADHD",
+        "Spektrum autyzmu",
       ],
-      highlight: false
+      highlight: true
     },
     {
       icon: Users,
-      title: "Terapia par",
+      title: "Terapia uzależnień",
       price: "Od 250 zł",
       duration: "60 min",
-      description: "Wsparcie dla relacji, komunikacji i budowania bliskości",
+      description: "Wsparcie w walce z uzależnieniem, zrozumienie problemu i skuteczne budowanie pozytywnych zmian",
       features: [
-        "Kryzysy w związku",
-        "Problemy komunikacyjne", 
-        "Budowanie bliskości",
-        "Rozwiązywanie konfliktów",
+        "Współpraca z prof. Mateuszem Golą",
+        "Skuteczne metody walki z uzależnieniem", 
+        "Budowanie zdrowych nawyków",
         "Planowanie przyszłości"
       ],
-      highlight: true
+      highlight: false
     },
     {
       icon: Monitor,
       title: "Sesje online",
       price: "Od 250 zł",
       duration: "50 min",
-      description: "Profesjonalna pomoc psychologiczna przez bezpieczną platformę",
+      description: "Profesjonalna pomoc psychologiczna przez bezpieczną platformę (Zoom, Meet)",
       features: [
         "Wygoda własnego domu",
         "Elastyczne terminy",
         "Oszczędność czasu",
-        "Bezpieczne połączenie",
+        "Bezpieczne połączenie i dyskrecja",
         "Taka sama skuteczność"
       ],
-      highlight: false
+      highlight: true
     }
   ];
 
@@ -69,7 +69,7 @@ const Services = () => {
                 Oferta
               </span>
               <h2 className="text-4xl lg:text-5xl font-light text-foreground mb-6 font-serif">
-                Jak mogę<br />Ci pomóc
+                Jak mogę<br />Ci pomóc?
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Dostosowuję formę terapii do Twoich indywidualnych potrzeb, 
@@ -168,7 +168,7 @@ const Services = () => {
           </h3>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Zapraszam na bezpłatną 15-minutową konsultację telefoniczną, 
-            podczas której wspólnie ustalimy najlepszą formę pomocy.
+            podczas której wspólnie ustalimy najlepszą formę pomocy. Napisz do mnie lub zadzwoń, aby się umówić.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -182,7 +182,7 @@ const Services = () => {
             </Button>
             
             <div className="text-sm text-muted-foreground">
-              lub zadzwoń: <span className="font-medium text-foreground">+48 123 456 789</span>
+              lub zadzwoń (w godzinach 19:00-20:00): <span className="font-medium text-foreground">+48 668 207 872</span>
             </div>
           </div>
         </Card>

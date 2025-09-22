@@ -47,15 +47,15 @@ const Contact = () => {
   const contactMethods = [
     {
       icon: Phone,
-      title: "Telefon",
-      value: "+48 123 456 789",
+      title: "Telefon lub sms",
+      value: "+48 668 207 872",
       description: "Pon-Pt: 9:00-17:00",
       action: "Zadzwoń teraz"
     },
     {
       icon: Mail,
       title: "Email", 
-      value: "kontakt@strefawsparcia.pl",
+      value: "kontakt@strefawsparcia.com",
       description: "Odpowiedź w 24h",
       action: "Napisz email"
     },
@@ -120,8 +120,8 @@ const Contact = () => {
                 <h3 className="font-medium text-foreground">Gabinet</h3>
               </div>
               
-              <p className="text-foreground mb-2">ul. Markowska 22</p>
-              <p className="text-foreground mb-4">00-000 Warszawa</p>
+              <p className="text-foreground mb-2">ul. Juliana Ursyna Niemcewicza 7/9</p>
+              <p className="text-foreground mb-4">02-022 Warszawa</p>
               
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4" />
@@ -169,7 +169,7 @@ const Contact = () => {
                   >
                     <option value="pierwsza-wizyta">Chcę umówić pierwszą wizytę</option>
                     <option value="konsultacja">Bezpłatna konsultacja telefoniczna</option>
-                    <option value="terapia-par">Terapia par</option>
+                    <option value="terapia-par">Terapia uzależnień</option>
                     <option value="sesje-online">Sesje online</option>
                     <option value="pytania">Mam pytania o terapię</option>
                     <option value="inne">Inne</option>

@@ -18,7 +18,7 @@ const Approach = () => {
     {
       title: "ST",
       fullName: "Terapia Schematów",
-      description: "Praca z głęboko zakorzenionym wzorcami z dzieciństwa i wczesnej dorosłości.",
+      description: "Praca z głęboko zakorzenionymi wzorcami z dzieciństwa i wczesnej dorosłości.",
       color: "clay"
     }
   ];
@@ -189,7 +189,7 @@ const Approach = () => {
           <div className="text-center mt-12">
             <p className="text-muted-foreground mb-6">
               <strong>Pamiętaj:</strong> Terapia to proces, który wymaga czasu. 
-              Pierwsze pozytywne zmiany zazwyczaj widoczne są już po kilku sesjach.
+              Pierwsze pozytywne zmiany mogą być jednak widoczne już po kilku sesjach.
             </p>
             
             <button 

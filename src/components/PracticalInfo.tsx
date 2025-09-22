@@ -14,8 +14,7 @@ const PracticalInfo = () => {
       icon: Clock,
       title: "Czas trwania",
       details: [
-        "Sesja indywidualna: 50 minut",
-        "Terapia par: 60 minut", 
+        "Sesja indywidualna: 60 minut",
         "Pierwsza konsultacja: do 60 minut",
         "Konsultacja telefoniczna: 15 minut (bezpłatna)"
       ]
@@ -34,10 +33,9 @@ const PracticalInfo = () => {
       icon: Globe,
       title: "Języki i formy",
       details: [
-        "Język polski (natywny)",
-        "Język angielski (C1)",
+        "Język polski",
         "Sesje stacjonarne w gabinecie",
-        "Sesje online (bezpieczna platforma)"
+        "Sesje online (platforma Zoom, Meet)"
       ]
     },
     {
@@ -76,8 +74,8 @@ const PracticalInfo = () => {
                   <div>
                     <h3 className="text-xl font-medium text-foreground mb-2">Gabinet w Warszawie</h3>
                     <p className="text-muted-foreground text-lg">
-                      ul. Markowska 22<br />
-                      00-000 Warszawa
+                    Juliana Ursyna Niemcewicza 7/9, lok. 81<br />
+                    02-022 Warszawa
                     </p>
                   </div>
                 </div>
@@ -85,11 +83,11 @@ const PracticalInfo = () => {
                 <div className="space-y-3 text-sm text-muted-foreground mb-6">
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-accent rounded-full"></div>
-                    <span>Metro Centrum (5 min pieszo)</span>
+                    <span>Wygodny dojazd - 10 min. tramwajem od Metro Centrum</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-accent rounded-full"></div>
-                    <span>Płatny parking w pobliżu</span>
+                    <span>Parkowanie płatne przy ul. Niemcewicza</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-accent rounded-full"></div>
@@ -97,18 +95,25 @@ const PracticalInfo = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-2 h-2 bg-accent rounded-full"></div>
-                    <span>Klimatyzacja i komfortowe wnętrze</span>
+                    <span>Wygodny i przytulny gabinet</span>
                   </div>
                 </div>
                 
                 {/* Map placeholder */}
-                <div className="bg-gradient-organic rounded-2xl h-48 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="w-12 h-12 text-accent mx-auto mb-3" />
-                    <p className="font-medium text-foreground">Interaktywna mapa</p>
-                    <p className="text-sm text-muted-foreground">ul. Markowska 22, Warszawa</p>
+                <a 
+                  href="https://maps.app.goo.gl/QgMfk81k5E9HEYZ68" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="block hover:opacity-80 transition-opacity"
+                >
+                  <div className="bg-gradient-organic rounded-2xl h-48 flex items-center justify-center">
+                    <div className="text-center">
+                      <MapPin className="w-12 h-12 text-accent mx-auto mb-3" />
+                      <p className="font-medium text-foreground">Google maps</p>
+                      <p className="text-sm text-muted-foreground">Juliana Ursyna Niemcewicza 7/9, Warszawa</p>
+                    </div>
                   </div>
-                </div>
+                </a>
               </Card>
 
               {/* Quick contact */}
@@ -121,11 +126,11 @@ const PracticalInfo = () => {
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center space-x-3">
                     <Phone className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-foreground font-medium">+48 123 456 789</span>
+                    <span className="text-foreground font-medium">+48 668 207 872 (19:00 - 20:00)</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Mail className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-foreground font-medium">kontakt@strefawsparcia.pl</span>
+                    <span className="text-foreground font-medium">kontakt@strefawsparcia.com</span>
                   </div>
                 </div>
                 

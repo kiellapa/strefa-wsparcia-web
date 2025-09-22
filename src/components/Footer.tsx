@@ -46,21 +46,21 @@ const Footer = () => {
             
             <p className="text-muted-foreground leading-relaxed mb-6 max-w-md">
               Profesjonalna psychoterapia w Warszawie. Pomagam odnaleźć równowagę, 
-              odporność i spokój w codziennym życiu. Terapia indywidualna, par i online.
+              odporność i spokój w codziennym życiu. Terapia indywidualna w hgabinecie i online.
             </p>
             
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-sm">
                 <MapPin className="w-4 h-4 text-accent" />
-                <span className="text-muted-foreground">ul. Markowska 22, Warszawa</span>
+                <span className="text-muted-foreground">ul. Juliana Ursyna Niemcewicza 7/9, Warszawa</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Phone className="w-4 h-4 text-accent" />
-                <span className="text-muted-foreground">+48 123 456 789</span>
+                <span className="text-muted-foreground">+48 668 207 872</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Mail className="w-4 h-4 text-accent" />
-                <span className="text-muted-foreground">kontakt@strefawsparcia.pl</span>
+                <span className="text-muted-foreground">kontakt@strefawsparcia.com</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Clock className="w-4 h-4 text-accent" />
@@ -90,7 +90,7 @@ const Footer = () => {
             <h4 className="font-medium text-foreground mb-6 text-lg">Oferta</h4>
             <div className="space-y-3">
               <div className="text-muted-foreground text-sm">Terapia indywidualna</div>
-              <div className="text-muted-foreground text-sm">Terapia par</div>
+              <div className="text-muted-foreground text-sm">Terapia uzależnień</div>
               <div className="text-muted-foreground text-sm">Sesje online</div>
               <div className="text-muted-foreground text-sm">Konsultacje</div>
               <div className="text-primary text-sm font-medium">Bezpłatna konsultacja →</div>
