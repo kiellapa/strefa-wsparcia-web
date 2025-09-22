@@ -89,6 +89,7 @@ const Hero = () => {
               <div className="text-xl sm:text-2xl font-bold text-foreground">500+</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Godzin szkoleń</div>
             </div>
+            <div className="h-6 sm:h-8 w-px bg-border"></div>
             <div className="research-badge">
               <div className="text-xl sm:text-2xl font-bold text-foreground">24h</div>
               <div className="text-xs sm:text-sm text-muted-foreground">Odpowiedź na email</div>

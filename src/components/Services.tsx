@@ -8,7 +8,7 @@ const Services = () => {
     {
       icon: User,
       title: "Terapia indywidualna",
-      price: "Od 180 zł",
+      price: "Od 250 zł",
       duration: "50 min",
       description: "Praca jeden na jeden w bezpiecznej przestrzeni gabinetu",
       features: [
@@ -23,7 +23,7 @@ const Services = () => {
     {
       icon: Users,
       title: "Terapia par",
-      price: "Od 220 zł",
+      price: "Od 250 zł",
       duration: "60 min",
       description: "Wsparcie dla relacji, komunikacji i budowania bliskości",
       features: [
@@ -38,7 +38,7 @@ const Services = () => {
     {
       icon: Monitor,
       title: "Sesje online",
-      price: "Od 160 zł",
+      price: "Od 250 zł",
       duration: "50 min",
       description: "Profesjonalna pomoc psychologiczna przez bezpieczną platformę",
       features: [
