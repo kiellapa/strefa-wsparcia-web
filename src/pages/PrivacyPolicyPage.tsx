@@ -24,7 +24,7 @@ const PrivacyPolicyPage = () => {
 
           <h2>2. Administrator Danych Osobowych</h2>
           <p>
-            Administratorem danych osobowych zawartych w serwisie jest Marta Rokicińska, prowadząca działalność pod adresem ul. Markowska 22, 03-742 Warszawa, NIP: [Numer NIP]. Kontakt z administratorem jest możliwy pod adresem e-mail: kontakt@strefawsparcia.pl.
+            Administratorem danych osobowych zawartych w serwisie jest Marta Rokicińska, prowadząca działalność pod adresem ul. Markowska 22, 03-742 Warszawa, NIP: [Numer NIP]. Kontakt z administratorem jest możliwy pod adresem e-mail: kontakt@strefawsparcia.com.
           </p>
 
           <h2>3. Jakie dane zbieramy i w jakim celu?</h2>
