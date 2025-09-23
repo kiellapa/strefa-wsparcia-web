@@ -1,23 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // <-- ZAKTUALIZOWANY IMPORT
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
+  const location = useLocation(); // <-- POBIERZ AKTUALNĄ LOKALIZACJĘ
+  const navigate = useNavigate(); // <-- POBIERZ FUNKCJĘ NAWIGACJI
   const isHomePage = location.pathname === '/';
   
+  // V-- ZAKTUALIZOWANA FUNKCJA --V
   const scrollToSection = (id: string) => {
-    if (!isHomePage) {
-      // Navigate to home page first, then scroll
-      window.location.href = `/#${id}`;
-      return;
+    setIsMenuOpen(false); // Zawsze zamykaj menu mobilne po kliknięciu
+    if (location.pathname !== '/') {
+      navigate(`/#${id}`);
+    } else {
+      const element = document.getElementById(id);
+      element?.scrollIntoView({ behavior: 'smooth' });
     }
-    const element = document.getElementById(id);
-    element?.scrollIntoView({ behavior: 'smooth' });
-    setIsMenuOpen(false);
   };
+  // ^-- KONIEC AKTUALIZACJI --^
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border/30">

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Send, Phone, Mail, MapPin, Clock, MessageCircle, Heart } from "lucide-react";
 
@@ -18,22 +19,42 @@ const Contact = () => {
     preferredContact: 'email'
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    toast({
-      title: "Wiadomość wysłana",
-      description: "Dziękuję za kontakt. Odpowiem w ciągu 24 godzin.",
-    });
-    
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: 'pierwsza-wizyta',
-      message: '',
-      preferredContact: 'email'
-    });
+    try {
+      // Zastąp ten URL adresem swojej strony
+      const response = await fetch("https://strefawsparcia.com/send-email.php", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        toast({
+          title: "Wiadomość wysłana",
+          description: "Dziękuję za kontakt. Odpowiem w ciągu 24 godzin.",
+        });
+        setFormData({
+          name: '', email: '', phone: '', subject: 'pierwsza-wizyta', message: '', preferredContact: 'email'
+        });
+      } else {
+        toast({
+          title: "Błąd",
+          description: "Nie udało się wysłać wiadomości. Spróbuj ponownie później.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Błąd wysyłania formularza:", error);
+      toast({
+          title: "Błąd sieci",
+          description: "Sprawdź swoje połączenie internetowe.",
+          variant: "destructive",
+      });
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -270,7 +291,18 @@ const Contact = () => {
                     placeholder="Opowiedz mi krótko o swojej sytuacji. Co Cię motywuje do szukania pomocy? Jak mogę Ci najlepiej pomóc?"
                   />
                 </div>
-
+                <div className="flex items-start space-x-3 items-center">
+                  <Checkbox id="terms" required />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Wyrażam zgodę na przetwarzanie danych, zgodnie z{" "}
+                    <a href="/polityka-prywatnosci" target="_blank" className="text-primary underline hover:text-primary-dark">
+                      Polityką Prywatności
+                    </a>.
+                  </label>
+                </div>
                 <Button
                   type="submit"
                   size="lg"

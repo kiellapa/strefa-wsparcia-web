@@ -1,7 +1,10 @@
 import { Heart, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom"; // <-- ZAKTUALIZOWANY IMPORT
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation(); // <-- POBIERZ AKTUALNĄ LOKALIZACJĘ
+  const navigate = useNavigate(); // <-- POBIERZ FUNKCJĘ NAWIGACJI
 
   const quickLinks = [
     { label: "O mnie", target: "about" },
@@ -12,21 +15,29 @@ const Footer = () => {
   ];
 
   const legalLinks = [
-    "Polityka prywatności",
-    "Klauzula RODO", 
-    "Regulamin",
-    "Zasady terapii"
+    { label: "Polityka prywatności", href: "/polityka-prywatnosci" },
+    { label: "Klauzula RODO", href: "/klauzula-rodo" },
+    { label: "Regulamin", href: "#" }, 
+    { label: "Zasady terapii", href: "#" } 
   ];
 
+  // V-- ZAKTUALIZOWANA FUNKCJA --V
   const scrollToSection = (target: string) => {
-    const element = document.getElementById(target);
-    element?.scrollIntoView({ behavior: 'smooth' });
+    // Jeśli jesteśmy na podstronie, wróć na stronę główną z hashem
+    if (location.pathname !== '/') {
+      navigate(`/#${target}`);
+    } else {
+      // Jeśli jesteśmy na stronie głównej, po prostu przewiń
+      const element = document.getElementById(target);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
+  // ^-- KONIEC AKTUALIZACJI --^
 
   return (
     <footer className="bg-secondary-dark/30 border-t border-border/30">
       <div className="max-w-7xl mx-auto px-6 py-16">
-        
+        {/* ... reszta kodu pozostaje bez zmian ... */}
         {/* Main footer content */}
         <div className="grid lg:grid-cols-4 gap-12 mb-12">
           
@@ -46,21 +57,21 @@ const Footer = () => {
             
             <p className="text-muted-foreground leading-relaxed mb-6 max-w-md">
               Profesjonalna psychoterapia w Warszawie. Pomagam odnaleźć równowagę, 
-              odporność i spokój w codziennym życiu. Terapia indywidualna w hgabinecie i online.
+              odporność i spokój w codziennym życiu. Terapia indywidualna, par i online.
             </p>
             
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-sm">
                 <MapPin className="w-4 h-4 text-accent" />
-                <span className="text-muted-foreground">ul. Juliana Ursyna Niemcewicza 7/9, Warszawa</span>
+                <span className="text-muted-foreground">ul. Markowska 22, Warszawa</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Phone className="w-4 h-4 text-accent" />
-                <span className="text-muted-foreground">+48 668 207 872</span>
+                <span className="text-muted-foreground">+48 123 456 789</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Mail className="w-4 h-4 text-accent" />
-                <span className="text-muted-foreground">kontakt@strefawsparcia.com</span>
+                <span className="text-muted-foreground">kontakt@strefawsparcia.pl</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Clock className="w-4 h-4 text-accent" />
@@ -90,7 +101,7 @@ const Footer = () => {
             <h4 className="font-medium text-foreground mb-6 text-lg">Oferta</h4>
             <div className="space-y-3">
               <div className="text-muted-foreground text-sm">Terapia indywidualna</div>
-              <div className="text-muted-foreground text-sm">Terapia uzależnień</div>
+              <div className="text-muted-foreground text-sm">Terapia par</div>
               <div className="text-muted-foreground text-sm">Sesje online</div>
               <div className="text-muted-foreground text-sm">Konsultacje</div>
               <div className="text-primary text-sm font-medium">Bezpłatna konsultacja →</div>
@@ -129,12 +140,13 @@ const Footer = () => {
             
             <div className="flex flex-wrap justify-center lg:justify-end gap-6 text-sm">
               {legalLinks.map((link, index) => (
-                <button 
+                <Link 
                   key={index}
+                  to={link.href}
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  {link}
-                </button>
+                  {link.label}
+                </Link>
               ))}
             </div>
           </div>
