@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Send, Phone, Mail, MapPin, Clock, MessageCircle, Heart } from "lucide-react";
+import { Link } from "react-router-dom"; // <-- Dodany import
 
 const Contact = () => {
   const { toast } = useToast();
@@ -18,44 +19,8 @@ const Contact = () => {
     message: '',
     preferredContact: 'email'
   });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    try {
-      // Zastąp ten URL adresem swojej strony
-      const response = await fetch("https://strefawsparcia.com/send-email.php", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-  
-      if (response.ok) {
-        toast({
-          title: "Wiadomość wysłana",
-          description: "Dziękuję za kontakt. Odpowiem w ciągu 24 godzin.",
-        });
-        setFormData({
-          name: '', email: '', phone: '', subject: 'pierwsza-wizyta', message: '', preferredContact: 'email'
-        });
-      } else {
-        toast({
-          title: "Błąd",
-          description: "Nie udało się wysłać wiadomości. Spróbuj ponownie później.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Błąd wysyłania formularza:", error);
-      toast({
-          title: "Błąd sieci",
-          description: "Sprawdź swoje połączenie internetowe.",
-          variant: "destructive",
-      });
-    }
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [rodoAccepted, setRodoAccepted] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -64,6 +29,61 @@ const Contact = () => {
       [name]: value
     }));
   };
+
+  // V-- POPRAWIONA I W PEŁNI FUNKCJONALNA WERSJA --V
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!rodoAccepted) {
+      toast({
+        title: "Wymagana zgoda",
+        description: "Proszę zaakceptować politykę prywatności, aby wysłać wiadomość.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Pamiętaj, aby wstawić tutaj swój produkcyjny URL z n8n
+      const response = await fetch("https://n8nkiell.byst.re/webhook-test/87c76d22-089c-48d2-8f2b-ec1b8a6be2dd", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Wiadomość wysłana",
+          description: "Dziękuję za kontakt. Odpowiem w ciągu 24 godzin.",
+        });
+        setFormData({
+          name: '', email: '', phone: '', subject: 'pierwsza-wizyta', message: '', preferredContact: 'email'
+        });
+        setRodoAccepted(false);
+      } else {
+        const errorData = await response.json().catch(() => ({ message: "Nie udało się przetworzyć odpowiedzi serwera." }));
+        toast({
+          title: "Błąd serwera",
+          description: errorData.message || "Nie udało się wysłać wiadomości. Spróbuj ponownie później.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Błąd wysyłania formularza:", error);
+      toast({
+          title: "Błąd sieci",
+          description: "Nie można nawiązać połączenia z serwerem. Sprawdź swoje połączenie internetowe lub spróbuj ponownie za chwilę.",
+          variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  // ^-- KONIEC POPRAWIONEJ FUNKCJI --^
 
   const contactMethods = [
     {
@@ -291,25 +311,33 @@ const Contact = () => {
                     placeholder="Opowiedz mi krótko o swojej sytuacji. Co Cię motywuje do szukania pomocy? Jak mogę Ci najlepiej pomóc?"
                   />
                 </div>
+
+                {/* ZGODA RODO */}
                 <div className="flex items-start space-x-3 items-center">
-                  <Checkbox id="terms" required />
+                  <Checkbox 
+                    id="terms" 
+                    checked={rodoAccepted}
+                    onCheckedChange={(checked) => setRodoAccepted(Boolean(checked))}
+                  />
                   <label
                     htmlFor="terms"
                     className="text-sm text-muted-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     Wyrażam zgodę na przetwarzanie danych, zgodnie z{" "}
-                    <a href="/polityka-prywatnosci" target="_blank" className="text-primary underline hover:text-primary-dark">
+                    <Link to="/polityka-prywatnosci" target="_blank" className="text-primary underline hover:text-primary-dark">
                       Polityką Prywatności
-                    </a>.
+                    </Link>.
                   </label>
                 </div>
+
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={isSubmitting}
                   className="w-full bg-primary hover:bg-primary-dark text-primary-foreground rounded-3xl py-6 text-lg font-medium inline-flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Send className="w-5 h-5" />
-                  <span>Wyślij wiadomość</span>
+                  <span>{isSubmitting ? "Wysyłanie..." : "Wyślij wiadomość"}</span>
                 </Button>
 
                 <div className="bg-stone-soft/50 p-4 rounded-2xl">
@@ -320,6 +348,7 @@ const Contact = () => {
                     Twoje dane są bezpieczne i nie będą udostępniane osobom trzecim.
                   </p>
                 </div>
+
               </form>
             </Card>
           </div>
