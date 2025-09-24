@@ -47,7 +47,7 @@ const Contact = () => {
 
     try {
       // Pamiętaj, aby wstawić tutaj swój produkcyjny URL z n8n
-      const response = await fetch("https://n8nkiell.byst.re/webhook-test/87c76d22-089c-48d2-8f2b-ec1b8a6be2dd", {
+      const response = await fetch("https://n8nkiell.byst.re/webhook/87c76d22-089c-48d2-8f2b-ec1b8a6be2dd", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
