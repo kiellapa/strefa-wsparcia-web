@@ -9,7 +9,7 @@ const Services = () => {
       icon: User,
       title: "Terapia indywidualna",
       price: "Od 250 zł",
-      duration: "60 min",
+      duration: "50 min",
       description: "Praca jeden na jeden w bezpiecznej przestrzeni gabinetu",
       features: [
         "Lęk i zaburzenia nastroju",
@@ -25,10 +25,9 @@ const Services = () => {
       icon: Users,
       title: "Terapia uzależnień",
       price: "Od 250 zł",
-      duration: "60 min",
+      duration: "50 min",
       description: "Wsparcie w walce z uzależnieniem, zrozumienie problemu i skuteczne budowanie pozytywnych zmian",
       features: [
-        "Współpraca z prof. Mateuszem Golą",
         "Skuteczne metody walki z uzależnieniem", 
         "Budowanie zdrowych nawyków",
         "Planowanie przyszłości"

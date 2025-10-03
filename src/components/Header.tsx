@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // <-- ZAKTUALIZOWANY IMPORT
+import logo from "@/assets/logo1_150.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,7 +27,8 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center space-x-3">
+            <img src={logo} alt="Strefa Wsparcia Logo" className="h-12 w-12" />
             <div className="flex flex-col">
               <span className="text-xl font-light text-foreground tracking-wide">
                 Strefa Wsparcia

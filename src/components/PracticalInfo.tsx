@@ -23,7 +23,7 @@ const PracticalInfo = () => {
       icon: Calendar,
       title: "Dostępność",
       details: [
-        "Poniedziałek - Piątek: 9:00 - 18:00",
+        "Wtorek - Środa: 16:00 - 21:00",
         "Sobota: 10:00 - 14:00 (online)",
         "Wieczorne terminy: do uzgodnienia",
         "Możliwość sesji w weekend"
@@ -44,7 +44,6 @@ const PracticalInfo = () => {
       details: [
         "Gotówka w gabinecie",
         "Przelew bankowy",
-        "BLIK i karty płatnicze",
         "Możliwość faktury VAT"
       ]
     }

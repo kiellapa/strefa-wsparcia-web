@@ -57,7 +57,7 @@ const Footer = () => {
             
             <p className="text-muted-foreground leading-relaxed mb-6 max-w-md">
               Profesjonalna psychoterapia w Warszawie. Pomagam odnaleźć równowagę, 
-              odporność i spokój w codziennym życiu. Terapia indywidualna, par i online.
+              odporność i spokój w codziennym życiu. Terapia indywidualna i online.
             </p>
             
             <div className="space-y-3">
@@ -75,7 +75,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3 text-sm">
                 <Clock className="w-4 h-4 text-accent" />
-                <span className="text-muted-foreground">Pon-Pt: 9:00-18:00, Sob: 10:00-14:00</span>
+                <span className="text-muted-foreground">Wt-Śr: 16:00-21:00, Sob: 10:00-14:00</span>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Sparkles } from "lucide-react";
-import watercolorHeroBg from "@/assets/watercolor-hero-bg.jpg";
+import watercolorHeroBg from "@/assets/watercolor-hero-bg-logo2.jpg";
 import therapistPortrait from "@/assets/therapist-portrait.jpg";
 
 const Hero = () => {
