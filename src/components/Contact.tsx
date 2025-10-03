@@ -90,7 +90,7 @@ const Contact = () => {
       icon: Phone,
       title: "Telefon lub sms",
       value: "+48 668 207 872",
-      description: "Pon-Pt: 9:00-17:00",
+      description: "Wt-Śr: 16:00-21:00",
       action: "Zadzwoń teraz"
     },
     {
@@ -166,7 +166,7 @@ const Contact = () => {
               
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Clock className="w-4 h-4" />
-                <span>Pon-Pt: 9:00-18:00, Sob: 10:00-14:00</span>
+                <span>Wt-Śr: 16:00-21:00, Sob: 10:00-14:00</span>
               </div>
             </Card>
 

@@ -14,8 +14,8 @@ const PracticalInfo = () => {
       icon: Clock,
       title: "Czas trwania",
       details: [
-        "Sesja indywidualna: 60 minut",
-        "Pierwsza konsultacja: do 60 minut",
+        "Sesja indywidualna: 50 minut",
+        "Pierwsza konsultacja: do 50 minut",
         "Konsultacja telefoniczna: 15 minut (bezpłatna)"
       ]
     },
