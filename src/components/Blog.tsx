@@ -5,13 +5,20 @@ import { Calendar, Clock, ArrowRight, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createWordPressService, BlogPost, fallbackPosts } from "@/services/wordpress";
 import scientificResearch from "@/assets/scientific-research.jpg";
+import { subscribeToNewsletter, NewsletterError } from "@/services/newsletter";
+import { useToast } from "@/hooks/use-toast";
 
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [isSubmittingNewsletter, setIsSubmittingNewsletter] = useState(false);
+  const { toast } = useToast();
 
   // You'll need to replace this with your actual WordPress URL
   const WORDPRESS_URL = "https://www.strefawsparcia.com/"; // REPLACE WITH YOUR WORDPRESS URL
+
+  const isNewsletterConfigured = Boolean(import.meta.env.VITE_NEWSLETTER_WEBHOOK_URL);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -200,16 +207,94 @@ const Blog = () => {
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             Otrzymuj powiadomienia o nowych artykułach i praktycznych poradach bezpośrednio na swoją skrzynkę email.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input 
-              type="email" 
+          <form
+            className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+            onSubmit={async (event) => {
+              event.preventDefault();
+
+              const trimmedEmail = newsletterEmail.trim();
+
+              if (!trimmedEmail) {
+                toast({
+                  title: "Podaj adres email",
+                  description: "Wpisz adres email, aby zapisać się do newslettera.",
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!emailPattern.test(trimmedEmail)) {
+                toast({
+                  title: "Nieprawidłowy email",
+                  description: "Sprawdź, czy adres email został wpisany poprawnie.",
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              if (!isNewsletterConfigured) {
+                toast({
+                  title: "Brak konfiguracji",
+                  description: "Skontaktuj się z administratorem strony w celu skonfigurowania newslettera.",
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              setIsSubmittingNewsletter(true);
+
+              try {
+                await subscribeToNewsletter({
+                  email: trimmedEmail,
+                  metadata: {
+                    source: "blog-section",
+                  },
+                });
+
+                toast({
+                  title: "Dziękujemy!",
+                  description: "Zapis do newslettera przebiegł pomyślnie.",
+                });
+                setNewsletterEmail("");
+              } catch (error) {
+                const message =
+                  error instanceof NewsletterError
+                    ? error.message
+                    : "Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.";
+
+                toast({
+                  title: "Nie udało się zapisać",
+                  description: message,
+                  variant: "destructive",
+                });
+              } finally {
+                setIsSubmittingNewsletter(false);
+              }
+            }}
+          >
+            <input
+              type="email"
               placeholder="Twój adres email"
+              value={newsletterEmail}
+              onChange={(event) => setNewsletterEmail(event.target.value)}
               className="flex-1 px-4 py-3 rounded-3xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              aria-label="Adres email do zapisu na newsletter"
+              required
             />
-            <Button className="bg-primary hover:bg-primary-dark text-primary-foreground px-6 py-3 rounded-3xl font-medium">
-              Zapisz się
+            <Button
+              type="submit"
+              className="bg-primary hover:bg-primary-dark text-primary-foreground px-6 py-3 rounded-3xl font-medium"
+              disabled={isSubmittingNewsletter}
+            >
+              {isSubmittingNewsletter ? "Zapisywanie..." : "Zapisz się"}
             </Button>
-          </div>
+          </form>
+          {!isNewsletterConfigured && (
+            <p className="text-xs text-muted-foreground mt-4">
+              Newsletter wymaga podania adresu webhooka w zmiennej środowiskowej <code>VITE_NEWSLETTER_WEBHOOK_URL</code>.
+            </p>
+          )}
         </Card>
       </div>
     </section>
