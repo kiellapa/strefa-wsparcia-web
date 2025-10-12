@@ -71,3 +71,24 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## Newsletter configuration
+
+Sekcja bloga zawiera teraz formularz zapisu do newslettera, który korzysta z webhooka. Aby zapisy działały poprawnie:
+
+1. Utwórz webhook w wybranym narzędziu (np. MailerLite, Mailchimp, n8n) przyjmujący co najmniej pole `email`.
+2. W pliku `.env` (lub konfiguracji środowiska hostingowego) ustaw zmienną `VITE_NEWSLETTER_WEBHOOK_URL` na adres webhooka.
+3. Zrestartuj serwer deweloperski (`npm run dev`), aby Vite mógł odczytać nową zmienną środowiskową.
+
+W żądaniu wysyłanym przez aplikację przesyłane są dane w formacie JSON:
+
+```json
+{
+  "email": "osoba@example.com",
+  "metadata": {
+    "source": "blog-section"
+  }
+}
+```
+
+W razie potrzeby możesz rozszerzyć logikę w pliku `src/services/newsletter.ts`, aby dopasować ją do wymagań Twojej integracji.
