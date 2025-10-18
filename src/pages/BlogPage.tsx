@@ -6,6 +6,10 @@ import { Calendar, Clock, ArrowRight, BookOpen, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { createWordPressService, BlogPost, fallbackPosts } from "@/services/wordpress";
 import scientificResearch from "@/assets/scientific-research.jpg";
+// NOWE IMPORTY vvv
+import { subscribeToNewsletter, NewsletterError } from "@/services/newsletter";
+import { useToast } from "@/hooks/use-toast";
+// NOWE IMPORTY ^^^
 
 const BlogPage = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -14,19 +18,28 @@ const BlogPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Wszystkie");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  // NOWE STANY vvv
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [isSubmittingNewsletter, setIsSubmittingNewsletter] = useState(false);
+  const { toast } = useToast();
+  // NOWE STANY ^^^
 
-  // You'll need to replace this with your actual WordPress URL
   const WORDPRESS_URL = "https://www.strefawsparcia.com/"; // REPLACE WITH YOUR WORDPRESS URL
+
+  // NOWA ZMIENNA vvv
+  const isNewsletterConfigured = Boolean(import.meta.env.VITE_NEWSLETTER_WEBHOOK_URL);
+  // NOWA ZMIENNA ^^^
 
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
+      // ... (reszta kodu useEffect pozostaje bez zmian) ...
+       try {
         const wordpressService = createWordPressService(WORDPRESS_URL);
         const fetchedPosts = await wordpressService.getPosts();
-        
+
         if (fetchedPosts.length > 0) {
           setPosts(fetchedPosts);
-          
+
           // Extract unique categories
           const uniqueCategories = ["Wszystkie", ...new Set(fetchedPosts.map(post => post.category))];
           setCategories(uniqueCategories);
@@ -66,7 +79,7 @@ const BlogPage = () => {
 
     // Filter by search query
     if (searchQuery.trim()) {
-      filtered = filtered.filter(post => 
+      filtered = filtered.filter(post =>
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -75,7 +88,8 @@ const BlogPage = () => {
     setFilteredPosts(filtered);
   }, [posts, selectedCategory, searchQuery]);
 
-  if (loading) {
+  // ... (kod renderowania loading, nagłówka, filtrów pozostaje bez zmian) ...
+    if (loading) {
     return (
       <div className="min-h-screen bg-background pt-24">
         <div className="max-w-7xl mx-auto px-6 py-12">
@@ -88,17 +102,18 @@ const BlogPage = () => {
     );
   }
 
+
   return (
     <div className="min-h-screen bg-background pt-24">
       <div className="max-w-7xl mx-auto px-6 py-12">
-        
+
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <div className="inline-flex items-center space-x-2 bg-moss-soft/50 px-4 py-2 rounded-full mb-6">
             <BookOpen className="w-4 h-4 text-moss" />
             <span className="text-sm text-moss font-medium">Blog terapeutyczny</span>
           </div>
-          
+
           <h1 className="text-4xl lg:text-6xl font-light text-foreground mb-6 font-serif">
             Wszystkie artykuły
           </h1>
@@ -129,8 +144,8 @@ const BlogPage = () => {
                 variant={category === selectedCategory ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
                 className={`rounded-full px-6 py-2 text-sm font-medium transition-all duration-300 ${
-                  category === selectedCategory 
-                    ? "bg-primary text-primary-foreground hover:bg-primary-dark" 
+                  category === selectedCategory
+                    ? "bg-primary text-primary-foreground hover:bg-primary-dark"
                     : "border-border text-muted-foreground hover:border-primary hover:text-primary"
                 }`}
               >
@@ -140,19 +155,20 @@ const BlogPage = () => {
           </div>
         </div>
 
+
         {/* Posts Grid */}
         {filteredPosts.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post, index) => (
-              <Card 
-                key={post.id} 
+              <Card
+                key={post.id}
                 className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {post.image && (
                   <div className="relative overflow-hidden h-48">
-                    <img 
-                      src={post.image} 
+                    <img
+                      src={post.image}
                       alt={post.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
@@ -165,7 +181,7 @@ const BlogPage = () => {
                     )}
                   </div>
                 )}
-                
+
                 <div className="p-6">
                   <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
                     <div className="flex items-center space-x-1">
@@ -177,7 +193,7 @@ const BlogPage = () => {
                       <span>{post.readTime}</span>
                     </div>
                   </div>
-                  
+
                   <div className="mb-3">
                     <span className={`text-xs font-medium px-2 py-1 rounded-full ${
                       post.category === 'Nauka' ? 'bg-clay-soft text-clay' :
@@ -187,18 +203,18 @@ const BlogPage = () => {
                       {post.category}
                     </span>
                   </div>
-                  
+
                   <h2 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">
                     {post.title}
                   </h2>
-                  
+
                   <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                     {post.excerpt}
                   </p>
-                  
+
                   <Link to={`/blog/${post.id}`}>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="p-0 h-auto text-primary hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform"
                     >
                       Czytaj więcej
@@ -217,7 +233,7 @@ const BlogPage = () => {
           </div>
         )}
 
-        {/* Newsletter CTA */}
+        {/* Newsletter CTA - ZAKTUALIZOWANY FORMULARZ vvv */}
         <Card className="mt-16 bg-gradient-earth rounded-3xl p-8 lg:p-12 text-center">
           <h3 className="text-2xl lg:text-3xl font-light text-foreground mb-4 font-serif">
             Bądź na bieżąco z najnowszymi artykułami
@@ -225,17 +241,96 @@ const BlogPage = () => {
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             Otrzymuj powiadomienia o nowych artykułach i praktycznych poradach bezpośrednio na swoją skrzynkę email.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <Input 
-              type="email" 
+          <form
+            className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto"
+            onSubmit={async (event) => { // Dodana logika onSubmit
+              event.preventDefault();
+
+              const trimmedEmail = newsletterEmail.trim();
+
+              if (!trimmedEmail) {
+                toast({
+                  title: "Podaj adres email",
+                  description: "Wpisz adres email, aby zapisać się do newslettera.",
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!emailPattern.test(trimmedEmail)) {
+                toast({
+                  title: "Nieprawidłowy email",
+                  description: "Sprawdź, czy adres email został wpisany poprawnie.",
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              if (!isNewsletterConfigured) {
+                toast({
+                  title: "Brak konfiguracji",
+                  description: "Skontaktuj się z administratorem strony w celu skonfigurowania newslettera.",
+                  variant: "destructive",
+                });
+                return;
+              }
+
+              setIsSubmittingNewsletter(true);
+
+              try {
+                await subscribeToNewsletter({
+                  email: trimmedEmail,
+                  metadata: {
+                    source: "blog-page", // Zmienione źródło na blog-page
+                  },
+                });
+
+                toast({
+                  title: "Dziękujemy!",
+                  description: "Zapis do newslettera przebiegł pomyślnie.",
+                });
+                setNewsletterEmail("");
+              } catch (error) {
+                const message =
+                  error instanceof NewsletterError
+                    ? error.message
+                    : "Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.";
+
+                toast({
+                  title: "Nie udało się zapisać",
+                  description: message,
+                  variant: "destructive",
+                });
+              } finally {
+                setIsSubmittingNewsletter(false);
+              }
+            }}
+          >
+            <Input
+              type="email"
               placeholder="Twój adres email"
-              className="flex-1 rounded-3xl border-border bg-background text-foreground focus:ring-2 focus:ring-primary"
+              value={newsletterEmail} // Podpięty stan
+              onChange={(event) => setNewsletterEmail(event.target.value)} // Podpięty stan
+              className="flex-1 rounded-3xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              aria-label="Adres email do zapisu na newsletter"
+              required
             />
-            <Button className="bg-primary hover:bg-primary-dark text-primary-foreground px-6 py-3 rounded-3xl font-medium">
-              Zapisz się
+            <Button
+              type="submit"
+              className="bg-primary hover:bg-primary-dark text-primary-foreground px-6 py-3 rounded-3xl font-medium"
+              disabled={isSubmittingNewsletter} // Podpięty stan
+            >
+              {isSubmittingNewsletter ? "Zapisywanie..." : "Zapisz się"} {/* Zmienny tekst przycisku */}
             </Button>
-          </div>
+          </form>
+          {!isNewsletterConfigured && ( // Dodany komunikat o braku konfiguracji
+            <p className="text-xs text-muted-foreground mt-4">
+              Newsletter wymaga podania adresu webhooka w zmiennej środowiskowej <code>VITE_NEWSLETTER_WEBHOOK_URL</code>.
+            </p>
+          )}
         </Card>
+         {/* ZAKTUALIZOWANY FORMULARZ ^^^ */}
       </div>
     </div>
   );

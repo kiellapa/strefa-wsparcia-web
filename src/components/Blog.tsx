@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input"; // Import Input
 import { Calendar, Clock, ArrowRight, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createWordPressService, BlogPost, fallbackPosts } from "@/services/wordpress";
@@ -24,24 +25,34 @@ const Blog = () => {
     const fetchPosts = async () => {
       try {
         const wordpressService = createWordPressService(WORDPRESS_URL);
-        const fetchedPosts = await wordpressService.getPosts(4); // Get only 4 posts for homepage
-        
+        // Pobierz 4 posty dla strony głównej
+        const fetchedPosts = await wordpressService.getPosts(4);
+
         if (fetchedPosts.length > 0) {
-          setPosts(fetchedPosts);
+          // Ustaw pierwszy post jako wyróżniony (jeśli istnieje)
+          const updatedPosts = fetchedPosts.map((post, index) => ({
+             ...post,
+             featured: index === 0,
+             // Dodaj obrazek do wyróżnionego posta, jeśli istnieje w WP
+             image: index === 0 ? post.image : undefined
+          }));
+          setPosts(updatedPosts);
         } else {
-          // Use fallback posts with images
-          const postsWithImages = fallbackPosts.map(post => ({
+          // Użyj fallback posts z obrazkiem tylko dla wyróżnionego
+          const postsWithImages = fallbackPosts.slice(0, 4).map((post, index) => ({
             ...post,
-            image: post.featured ? scientificResearch : undefined
+            featured: index === 0, // Oznacz pierwszy jako wyróżniony
+            image: index === 0 ? scientificResearch : undefined // Tylko pierwszy ma obrazek
           }));
           setPosts(postsWithImages);
         }
       } catch (error) {
         console.error("Error loading posts:", error);
-        // Use fallback posts
-        const postsWithImages = fallbackPosts.map(post => ({
+        // Użyj fallback posts w razie błędu
+        const postsWithImages = fallbackPosts.slice(0, 4).map((post, index) => ({
           ...post,
-          image: post.featured ? scientificResearch : undefined
+          featured: index === 0,
+          image: index === 0 ? scientificResearch : undefined
         }));
         setPosts(postsWithImages);
       } finally {
@@ -55,14 +66,14 @@ const Blog = () => {
   return (
     <section id="blog" className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <div className="inline-flex items-center space-x-2 bg-moss-soft/50 px-4 py-2 rounded-full mb-6">
             <BookOpen className="w-4 h-4 text-moss" />
             <span className="text-sm text-moss font-medium">Blog terapeutyczny</span>
           </div>
-          
+
           <h2 className="text-4xl lg:text-5xl font-light text-foreground mb-6 font-serif">
             Wiedza i wsparcie
           </h2>
@@ -74,7 +85,7 @@ const Blog = () => {
         {/* View All Button */}
         <div className="flex justify-center mb-12">
           <Link to="/blog">
-            <Button 
+            <Button
               variant="outline"
               className="rounded-full px-8 py-3 text-sm font-medium border-border text-muted-foreground hover:border-primary hover:text-primary transition-all duration-300"
             >
@@ -95,106 +106,110 @@ const Blog = () => {
             {/* Featured Post */}
             <div className="mb-16">
               {posts.filter(post => post.featured).map((post) => (
-            <Card key={post.id} className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-xl transition-all duration-500">
-              <div className="grid lg:grid-cols-2 gap-0">
-                <div className="relative overflow-hidden">
-                  <img 
-                    src={post.image} 
-                    alt={post.title}
-                    className="w-full h-64 lg:h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
-                      Wyróżnione
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="p-8 lg:p-12 flex flex-col justify-center">
-                  <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
+                <Card key={post.id} className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-xl transition-all duration-500">
+                  {/* ZMODYFIKOWANA SEKCJA GRIDU Z WARUNKIEM DLA OBRAZKA vvv */}
+                  <div className={`grid ${post.image ? 'lg:grid-cols-2' : 'lg:grid-cols-1'} gap-0`}>
+                    {post.image && (
+                      <div className="relative overflow-hidden">
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-64 lg:h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute top-4 left-4">
+                          <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
+                            Wyróżnione
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className={`p-8 lg:p-12 flex flex-col justify-center ${!post.image ? 'lg:col-span-1' : ''}`}>
+                       <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
+                         <div className="flex items-center space-x-1">
+                           <Calendar className="w-4 h-4" />
+                           <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
+                         </div>
+                         <div className="flex items-center space-x-1">
+                           <Clock className="w-4 h-4" />
+                           <span>{post.readTime}</span>
+                         </div>
+                         <span className="bg-accent-soft text-accent-dark px-2 py-1 rounded-full text-xs">
+                           {post.category}
+                         </span>
+                       </div>
+
+                       <h3 className="text-2xl lg:text-3xl font-light text-foreground mb-4 font-serif leading-tight">
+                         {post.title}
+                       </h3>
+
+                       <p className="text-muted-foreground leading-relaxed mb-6">
+                         {post.excerpt}
+                       </p>
+
+                       <Link to={`/blog/${post.id}`}>
+                         <Button className="self-start bg-primary hover:bg-primary-dark text-primary-foreground rounded-3xl group-hover:shadow-lg transition-all duration-300">
+                           Czytaj więcej
+                           <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                         </Button>
+                       </Link>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{post.readTime}</span>
-                    </div>
-                    <span className="bg-accent-soft text-accent-dark px-2 py-1 rounded-full text-xs">
-                      {post.category}
-                    </span>
                   </div>
-                  
-                  <h3 className="text-2xl lg:text-3xl font-light text-foreground mb-4 font-serif leading-tight">
-                    {post.title}
-                  </h3>
-                  
-                  <p className="text-muted-foreground leading-relaxed mb-6">
-                    {post.excerpt}
-                  </p>
-                  
-                  <Link to={`/blog/${post.id}`}>
-                    <Button className="self-start bg-primary hover:bg-primary-dark text-primary-foreground rounded-3xl group-hover:shadow-lg transition-all duration-300">
-                      Czytaj więcej
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+                   {/* ZMODYFIKOWANA SEKCJA GRIDU Z WARUNKIEM DLA OBRAZKA ^^^ */}
+                </Card>
+              ))}
+            </div>
 
             {/* Other Posts Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.filter(post => !post.featured).map((post, index) => (
-            <Card 
-              key={post.id} 
-              className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="p-6">
-                <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
-                  <div className="flex items-center space-x-1">
-                    <Calendar className="w-4 h-4" />
-                    <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{post.readTime}</span>
-                  </div>
-                </div>
-                
-                <div className="mb-3">
-                  <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                    post.category === 'Nauka' ? 'bg-clay-soft text-clay' :
-                    post.category === 'Praktyka' ? 'bg-moss-soft text-moss' :
-                    'bg-accent-soft text-accent-dark'
-                  }`}>
-                    {post.category}
-                  </span>
-                </div>
-                
-                <h3 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">
-                  {post.title}
-                </h3>
-                
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                  {post.excerpt}
-                </p>
-                
-                <Link to={`/blog/${post.id}`}>
-                  <Button 
-                   variant="ghost" 
-                   className="p-0 h-auto text-primary hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform"
-                  >
-                    Czytaj więcej
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </Button>
-                </Link>
-                </div>
-              </Card>
-            ))}
+                <Card
+                  key={post.id}
+                  className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <div className="p-6">
+                    <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="w-4 h-4" />
+                        <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Clock className="w-4 h-4" />
+                        <span>{post.readTime}</span>
+                      </div>
+                    </div>
+
+                    <div className="mb-3">
+                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                        post.category === 'Nauka' ? 'bg-clay-soft text-clay' :
+                        post.category === 'Praktyka' ? 'bg-moss-soft text-moss' :
+                        'bg-accent-soft text-accent-dark'
+                      }`}>
+                        {post.category}
+                      </span>
+                    </div>
+
+                    <h3 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h3>
+
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                      {post.excerpt}
+                    </p>
+
+                    <Link to={`/blog/${post.id}`}>
+                      <Button
+                       variant="ghost"
+                       className="p-0 h-auto text-primary hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform"
+                      >
+                        Czytaj więcej
+                        <ArrowRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </Link>
+                    </div>
+                  </Card>
+              ))}
             </div>
           </>
         )}
@@ -248,7 +263,7 @@ const Blog = () => {
                 await subscribeToNewsletter({
                   email: trimmedEmail,
                   metadata: {
-                    source: "blog-section",
+                    source: "blog-section", // Źródło: sekcja bloga na stronie głównej
                   },
                 });
 
@@ -273,7 +288,7 @@ const Blog = () => {
               }
             }}
           >
-            <input
+            <Input
               type="email"
               placeholder="Twój adres email"
               value={newsletterEmail}
