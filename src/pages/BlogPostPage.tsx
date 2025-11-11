@@ -82,9 +82,14 @@ const BlogPostPage = () => {
                 <Clock className="w-4 h-4" />
                 <span>{post.readTime}</span>
               </div>
-              <span className="bg-accent-soft text-accent-dark px-2 py-1 rounded-full text-xs">
-                {post.category}
+              {post.categories.map((cat, index) => (
+              <span 
+                key={index} 
+                className="bg-moss-soft/50 px-3 py-1 rounded-full text-sm text-moss font-medium"
+              >
+                {cat}
               </span>
+              ))}
             </div>
           </header>
 
@@ -97,9 +102,26 @@ const BlogPostPage = () => {
           )}
 
           <div 
-            className="prose lg:prose-xl max-w-none text-foreground"
+            className="prose lg:prose-xl max-w-none text-foreground leading-relaxed"
             dangerouslySetInnerHTML={{ __html: post.content }} 
           />
+          {/* DODANA SEKCJA TAGÓW vvv */}
+          {post.tags && post.tags.length > 0 && (
+            <div className="mt-12 border-t border-border/30 pt-8">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-sm font-medium text-muted-foreground">Tagi:</span>
+                {post.tags.map((tag, index) => (
+                  <span 
+                    key={index} 
+                    className="text-xs font-medium px-3 py-1 rounded-full bg-accent-soft text-accent-dark"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          {/* DODANA SEKCJA TAGÓW ^^^ */}
         </article>
       </div>
     </div>

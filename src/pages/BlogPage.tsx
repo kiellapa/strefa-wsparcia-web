@@ -41,26 +41,31 @@ const BlogPage = () => {
           setPosts(fetchedPosts);
 
           // Extract unique categories
-          const uniqueCategories = ["Wszystkie", ...new Set(fetchedPosts.map(post => post.category))];
+          const allCategories = fetchedPosts.flatMap(post => post.categories);
+          const uniqueCategories = ["Wszystkie", ...new Set(allCategories.filter(cat => cat !== 'Brak kategorii'))];
           setCategories(uniqueCategories);
         } else {
           // Use fallback posts with images
           const postsWithImages = fallbackPosts.map(post => ({
             ...post,
-            image: post.featured ? scientificResearch : undefined
+            image: post.featured ? scientificResearch : post.image // Use existing image if available
           }));
           setPosts(postsWithImages);
-          setCategories(["Wszystkie", "Poradnik", "Nauka", "Praktyka"]);
+          // Fallback categories
+          const allFbCategories = postsWithImages.flatMap(post => post.categories);
+          setCategories(["Wszystkie", ...new Set(allFbCategories.filter(cat => cat !== 'Brak kategorii'))]);
         }
       } catch (error) {
         console.error("Error loading posts:", error);
         // Use fallback posts
         const postsWithImages = fallbackPosts.map(post => ({
           ...post,
-          image: post.featured ? scientificResearch : undefined
+          image: post.featured ? scientificResearch : post.image
         }));
         setPosts(postsWithImages);
-        setCategories(["Wszystkie", "Poradnik", "Nauka", "Praktyka"]);
+        // Fallback categories
+        const allFbCategories = postsWithImages.flatMap(post => post.categories);
+        setCategories(["Wszystkie", ...new Set(allFbCategories.filter(cat => cat !== 'Brak kategorii'))]);
       } finally {
         setLoading(false);
       }
@@ -74,7 +79,7 @@ const BlogPage = () => {
 
     // Filter by category
     if (selectedCategory !== "Wszystkie") {
-      filtered = filtered.filter(post => post.category === selectedCategory);
+      filtered = filtered.filter(post => post.categories.includes(selectedCategory));
     }
 
     // Filter by search query
@@ -194,14 +199,19 @@ const BlogPage = () => {
                     </div>
                   </div>
 
-                  <div className="mb-3">
-                    <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                      post.category === 'Nauka' ? 'bg-clay-soft text-clay' :
-                      post.category === 'Praktyka' ? 'bg-moss-soft text-moss' :
-                      'bg-accent-soft text-accent-dark'
-                    }`}>
-                      {post.category}
-                    </span>
+                  <div className="mb-3 flex flex-wrap gap-2">
+                    {post.categories.map((cat, idx) => (
+                      <span
+                        key={idx}
+                        className={`text-xs font-medium px-2 py-1 rounded-full ${
+                          cat === 'Nauka' ? 'bg-clay-soft text-clay' :
+                          cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
+                          'bg-accent-soft text-accent-dark'
+                        }`}
+                      >
+                        {cat}
+                      </span>
+                    ))}
                   </div>
 
                   <h2 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">

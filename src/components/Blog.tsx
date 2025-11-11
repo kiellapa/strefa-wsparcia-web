@@ -134,9 +134,20 @@ const Blog = () => {
                            <Clock className="w-4 h-4" />
                            <span>{post.readTime}</span>
                          </div>
-                         <span className="bg-accent-soft text-accent-dark px-2 py-1 rounded-full text-xs">
-                           {post.category}
-                         </span>
+                         <div className="flex flex-wrap gap-2 mb-4">
+                          {post.categories.map((cat, idx) => (
+                            <span 
+                              key={idx} 
+                              className={`text-xs font-medium px-2 py-1 rounded-full ${
+                                cat === 'Nauka' ? 'bg-clay-soft text-clay' :
+                                cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
+                                'bg-accent-soft text-accent-dark'
+                              }`}
+                            >
+                              {cat}
+                            </span>
+                           ))}
+                         </div>
                        </div>
 
                        <h3 className="text-2xl lg:text-3xl font-light text-foreground mb-4 font-serif leading-tight">
@@ -180,14 +191,19 @@ const Blog = () => {
                       </div>
                     </div>
 
-                    <div className="mb-3">
-                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                        post.category === 'Nauka' ? 'bg-clay-soft text-clay' :
-                        post.category === 'Praktyka' ? 'bg-moss-soft text-moss' :
-                        'bg-accent-soft text-accent-dark'
-                      }`}>
-                        {post.category}
-                      </span>
+                    <div className="mb-3 flex flex-wrap gap-2">
+                      {post.categories.map((cat, idx) => (
+                        <span 
+                          key={idx} 
+                          className={`text-xs font-medium px-2 py-1 rounded-full ${
+                            cat === 'Nauka' ? 'bg-clay-soft text-clay' :
+                            cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
+                            'bg-accent-soft text-accent-dark'
+                          }`}
+                        >
+                          {cat}
+                        </span>
+                      ))}
                     </div>
 
                     <h3 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">

@@ -1,3 +1,13 @@
+// Funkcja pomocnicza do dekodowania encji HTML (działa tylko w przeglądarce)
+const decodeHtmlEntities = (text: string): string => {
+  if (typeof window === 'undefined') {
+    // Zwróć tekst bez zmian, jeśli nie jesteśmy w przeglądarce
+    return text;
+  }
+  const textarea = document.createElement('textarea');
+  textarea.innerHTML = text;
+  return textarea.value;
+};
 export interface WordPressPost {
   id: number;
   title: {
@@ -33,7 +43,8 @@ export interface BlogPost {
   content: string;
   date: string;
   readTime: string;
-  category: string;
+  categories: string[];
+  tags: string[];
   image?: string;
   featured: boolean;
 }
@@ -58,17 +69,24 @@ class WordPressService {
 
   private transformPost(post: WordPressPost): BlogPost {
     const featuredImage = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-    const categories = post._embedded?.['wp:term']?.[0] || [];
-    const primaryCategory = categories.length > 0 ? categories[0].name : 'Artykuł';
+    const allTerms = post._embedded?.['wp:term']?.flat().filter(Boolean) || [];
+    const categories = allTerms
+      .filter((term: any) => term.taxonomy === 'category')
+      .map((term: any) => decodeHtmlEntities(term.name));
+      
+    const tags = allTerms
+      .filter((term: any) => term.taxonomy === 'post_tag')
+      .map((term: any) => decodeHtmlEntities(term.name));
 
     return {
       id: post.id,
-      title: post.title.rendered,
-      excerpt: this.cleanExcerpt(post.excerpt.rendered),
+      title: decodeHtmlEntities(post.title.rendered),
+      excerpt: decodeHtmlEntities(post.excerpt.rendered.replace(/<[^>]*>/g, '').replace(/\[&hellip;\]/, '...')),
       content: post.content.rendered,
       date: post.date,
       readTime: this.calculateReadTime(post.content.rendered),
-      category: primaryCategory,
+      categories: categories.length > 0 ? categories : ['Brak kategorii'],
+      tags: tags, // Dodane
       image: featuredImage,
       featured: false // Will be determined by other logic
     };
@@ -151,8 +169,9 @@ export const fallbackPosts: BlogPost[] = [
     content: "",
     date: "2024-01-15",
     readTime: "5 min",
-    category: "Poradnik",
-    featured: true
+    categories: ["Praktyka", "Poradnik"], // Zmienione
+    tags: ["CBT", "Lęk", "Depresja"],    // Dodane
+    featured: true,
   },
   {
     id: 2,
@@ -161,7 +180,8 @@ export const fallbackPosts: BlogPost[] = [
     content: "",
     date: "2024-01-10",
     readTime: "7 min",
-    category: "Nauka",
+    categories: ["Nauka"], // Zmienione
+    tags: ["Mózg", "Neurobiologia"],
     featured: false
   },
   {
@@ -171,7 +191,8 @@ export const fallbackPosts: BlogPost[] = [
     content: "",
     date: "2024-01-05",
     readTime: "4 min",
-    category: "Praktyka",
+    categories: ["Praktyka"], // Zmienione
+    tags: ["Mindfulness", "Stres"],
     featured: false
   }
 ];
