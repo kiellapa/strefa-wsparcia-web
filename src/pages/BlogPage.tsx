@@ -167,7 +167,7 @@ const BlogPage = () => {
             {filteredPosts.map((post, index) => (
               <Link
                 key={post.id}
-                to={`/blog/${post.id}`} // <-- Używamy ID
+                to={`/blog/${post.id}`}
                 className="block group h-full"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
