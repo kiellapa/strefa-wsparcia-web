@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { createWordPressService, BlogPost, fallbackPosts } from "@/services/wordpress";
-import { Calendar, Clock, ArrowLeft } from "lucide-react";
+import { Calendar, Clock, ArrowLeft, Link as LinkIcon, Check } from "lucide-react";
+import { Facebook, Linkedin, Twitter, Instagram } from "@/components/SocialIcons"; // Importuj stąd
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 
 const BlogPostPage = () => {
@@ -10,6 +12,60 @@ const BlogPostPage = () => {
   const [loading, setLoading] = useState(true);
   const { id } = useParams<{ id: string }>();
 
+  const [isCopied, setIsCopied] = useState(false);
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(currentUrl);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  const shareOnSocial = async (platform: 'facebook' | 'twitter' | 'linkedin' | 'instagram') => {
+    const text = post?.title || '';
+    
+    // Specjalna obsługa dla Instagrama (i ogólnie mobile native share)
+    if (platform === 'instagram') {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: text,
+            text: post?.excerpt || text,
+            url: currentUrl,
+          });
+          return; // Jeśli się udało, kończymy
+        } catch (error) {
+          console.log('Anulowano udostępnianie lub błąd:', error);
+        }
+      }
+      
+      // Fallback dla Desktopu (kopiowanie linku)
+      navigator.clipboard.writeText(currentUrl);
+      toast({
+        title: "Link skopiowany!",
+        description: "Instagram nie wspiera bezpośredniego udostępniania z web. Link został skopiowany do schowka – możesz go wkleić w aplikacji.",
+      });
+      return;
+    }
+
+    // Standardowa obsługa dla reszty (bez zmian)
+    let url = '';
+    switch (platform) {
+      case 'facebook':
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+        break;
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(text)}`;
+        break;
+      case 'linkedin':
+        url = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(currentUrl)}&title=${encodeURIComponent(text)}`;
+        break;
+    }
+    
+    if (url) {
+      window.open(url, '_blank', 'width=600,height=400');
+    }
+  }; 
   // Zastąp ten adres URL swoim adresem WordPressa
   const WORDPRESS_URL = "https://www.strefawsparcia.com/";
 
@@ -105,6 +161,51 @@ const BlogPostPage = () => {
             className="prose lg:prose-xl max-w-none text-foreground leading-relaxed"
             dangerouslySetInnerHTML={{ __html: post.content }} 
           />
+          <div className="my-12 py-8 border-y border-border/30">
+            <h3 className="text-lg font-serif text-foreground mb-4">Udostępnij ten artykuł:</h3>
+            <div className="flex flex-wrap gap-3">
+              <Button 
+                variant="outline" 
+                onClick={() => shareOnSocial('facebook')}
+                className="rounded-full hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-colors"
+              >
+                <Facebook className="w-4 h-4 mr-2" />
+                Facebook
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => shareOnSocial('instagram')}
+                className="rounded-full hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:text-white hover:border-[#dc2743] transition-all"
+              >
+                <Instagram className="w-4 h-4 mr-2" />
+                Instagram
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => shareOnSocial('linkedin')}
+                className="rounded-full hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-colors"
+              >
+                <Linkedin className="w-4 h-4 mr-2" />
+                LinkedIn
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => shareOnSocial('twitter')}
+                className="rounded-full hover:bg-black hover:text-white hover:border-black transition-colors"
+              >
+                <Twitter className="w-4 h-4 mr-2" />
+                Twitter
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={handleCopyLink}
+                className="rounded-full hover:bg-primary hover:text-white hover:border-primary transition-colors"
+              >
+                {isCopied ? <Check className="w-4 h-4 mr-2" /> : <LinkIcon className="w-4 h-4 mr-2" />}
+                {isCopied ? "Skopiowano" : "Kopiuj link"}
+              </Button>
+            </div>
+          </div>          
           {/* DODANA SEKCJA TAGÓW vvv */}
           {post.tags && post.tags.length > 0 && (
             <div className="mt-12 border-t border-border/30 pt-8">

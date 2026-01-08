@@ -1,4 +1,5 @@
 import { Heart, Phone, Mail, MapPin, Clock } from "lucide-react";
+import { Facebook, Instagram, Linkedin } from "@/components/SocialIcons"; // Importuj stąd
 import { Link, useLocation, useNavigate } from "react-router-dom"; // <-- ZAKTUALIZOWANY IMPORT
 
 const Footer = () => {
@@ -77,6 +78,35 @@ const Footer = () => {
                 <Clock className="w-4 h-4 text-accent" />
                 <span className="text-muted-foreground">Wt-Śr: 16:00-21:00, Sob: 10:00-14:00</span>
               </div>
+            </div>
+            <div className="flex space-x-4 mt-8">
+              <a 
+                href="https://www.facebook.com/people/Strefa-Wsparcia/100063678806471/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-background border border-border/50 rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://www.instagram.com/strefa_wsparcia/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-background border border-border/50 rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/marta-rokici%C5%84ska-241946171/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-background border border-border/50 rounded-full flex items-center justify-center text-muted-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="w-5 h-5" />
+              </a>
             </div>
           </div>
           

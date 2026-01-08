@@ -106,125 +106,136 @@ const Blog = () => {
             {/* Featured Post */}
             <div className="mb-16">
               {posts.filter(post => post.featured).map((post) => (
-                <Card key={post.id} className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-xl transition-all duration-500">
-                  {/* ZMODYFIKOWANA SEKCJA GRIDU Z WARUNKIEM DLA OBRAZKA vvv */}
-                  <div className={`grid ${post.image ? 'lg:grid-cols-2' : 'lg:grid-cols-1'} gap-0`}>
-                    {post.image && (
-                      <div className="relative overflow-hidden">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-64 lg:h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
-                            Wyróżnione
-                          </span>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className={`p-8 lg:p-12 flex flex-col justify-center ${!post.image ? 'lg:col-span-1' : ''}`}>
-                       <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
-                         <div className="flex items-center space-x-1">
-                           <Calendar className="w-4 h-4" />
-                           <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
-                         </div>
-                         <div className="flex items-center space-x-1">
-                           <Clock className="w-4 h-4" />
-                           <span>{post.readTime}</span>
-                         </div>
-                         <div className="flex flex-wrap gap-2 mb-4">
-                          {post.categories.map((cat, idx) => (
-                            <span 
-                              key={idx} 
-                              className={`text-xs font-medium px-2 py-1 rounded-full ${
-                                cat === 'Nauka' ? 'bg-clay-soft text-clay' :
-                                cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
-                                'bg-accent-soft text-accent-dark'
-                              }`}
-                            >
-                              {cat}
+                <Link 
+                  key={post.id} 
+                  to={`/blog/${post.id}`} 
+                  className="block group" // <-- Link obejmuje całość, klasa group dla efektów hover
+                >
+                  <Card className="overflow-hidden rounded-3xl border-border/30 hover:shadow-xl transition-all duration-500">
+                    <div className={`grid ${post.image ? 'lg:grid-cols-2' : 'lg:grid-cols-1'} gap-0`}>
+                      {post.image && (
+                        <div className="relative overflow-hidden">
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full h-64 lg:h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                          <div className="absolute top-4 left-4">
+                            <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
+                              Wyróżnione
                             </span>
-                           ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className={`p-8 lg:p-12 flex flex-col justify-center ${!post.image ? 'lg:col-span-1' : ''}`}>
+                         <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
+                           <div className="flex items-center space-x-1">
+                             <Calendar className="w-4 h-4" />
+                             <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
+                           </div>
+                           <div className="flex items-center space-x-1">
+                             <Clock className="w-4 h-4" />
+                             <span>{post.readTime}</span>
+                           </div>
                          </div>
-                       </div>
+                         
+                         {/* Kategorie */}
+                         <div className="flex flex-wrap gap-2 mb-4">
+                            {post.categories.map((cat, idx) => (
+                              <span 
+                                key={idx} 
+                                className={`text-xs font-medium px-2 py-1 rounded-full ${
+                                  cat === 'Nauka' ? 'bg-clay-soft text-clay' :
+                                  cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
+                                  'bg-accent-soft text-accent-dark'
+                                }`}
+                              >
+                                {cat}
+                              </span>
+                            ))}
+                          </div>
 
-                       <h3 className="text-2xl lg:text-3xl font-light text-foreground mb-4 font-serif leading-tight">
-                         {post.title}
-                       </h3>
-
-                       <p className="text-muted-foreground leading-relaxed mb-6">
-                         {post.excerpt}
-                       </p>
-
-                       <Link to={`/blog/${post.id}`}>
-                         <Button className="self-start bg-primary hover:bg-primary-dark text-primary-foreground rounded-3xl group-hover:shadow-lg transition-all duration-300">
+                         <h3 className="text-2xl lg:text-3xl font-light text-foreground mb-4 font-serif leading-tight group-hover:text-primary transition-colors">
+                           {post.title}
+                         </h3>
+                         <p className="text-muted-foreground leading-relaxed mb-6">
+                           {post.excerpt}
+                         </p>
+                         
+                         {/* Przycisk jest tylko wizualny, kliknięcie łapie Link nadrzędny */}
+                         <Button className="self-start bg-primary hover:bg-primary-dark text-primary-foreground rounded-3xl group-hover:shadow-lg transition-all duration-300 pointer-events-none">
                            Czytaj więcej
                            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                          </Button>
-                       </Link>
+                      </div>
                     </div>
-                  </div>
-                   {/* ZMODYFIKOWANA SEKCJA GRIDU Z WARUNKIEM DLA OBRAZKA ^^^ */}
-                </Card>
+                  </Card>
+                </Link>
               ))}
             </div>
 
             {/* Other Posts Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.filter(post => !post.featured).map((post, index) => (
-                <Card
+                <Link
                   key={post.id}
-                  className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                  to={`/blog/${post.id}`} // <-- Używamy ID
+                  className="block group h-full"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="p-6">
-                    <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
-                      <div className="flex items-center space-x-1">
-                        <Calendar className="w-4 h-4" />
-                        <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
+                  <Card
+                    className="overflow-hidden rounded-3xl border-border/30 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
+                  >
+                    {/* ... (sekcja obrazka bez zmian, jeśli jest w kodzie) ... */}
+                    
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
+                        <div className="flex items-center space-x-1">
+                          <Calendar className="w-4 h-4" />
+                          <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Clock className="w-4 h-4" />
+                          <span>{post.readTime}</span>
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-1">
-                        <Clock className="w-4 h-4" />
-                        <span>{post.readTime}</span>
-                      </div>
-                    </div>
 
-                    <div className="mb-3 flex flex-wrap gap-2">
-                      {post.categories.map((cat, idx) => (
-                        <span 
-                          key={idx} 
-                          className={`text-xs font-medium px-2 py-1 rounded-full ${
-                            cat === 'Nauka' ? 'bg-clay-soft text-clay' :
-                            cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
-                            'bg-accent-soft text-accent-dark'
-                          }`}
+                      <div className="mb-3 flex flex-wrap gap-2">
+                        {post.categories.map((cat, idx) => (
+                          <span 
+                            key={idx} 
+                            className={`text-xs font-medium px-2 py-1 rounded-full ${
+                              cat === 'Nauka' ? 'bg-clay-soft text-clay' :
+                              cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
+                              'bg-accent-soft text-accent-dark'
+                            }`}
+                          >
+                            {cat}
+                          </span>
+                        ))}
+                      </div>
+
+                      <h3 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">
+                        {post.title}
+                      </h3>
+
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-grow">
+                        {post.excerpt}
+                      </p>
+
+                      <div className="mt-auto pt-4">
+                        <Button
+                         variant="ghost"
+                         className="p-0 h-auto text-primary group-hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform pointer-events-none"
                         >
-                          {cat}
-                        </span>
-                      ))}
-                    </div>
-
-                    <h3 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">
-                      {post.title}
-                    </h3>
-
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                      {post.excerpt}
-                    </p>
-
-                    <Link to={`/blog/${post.id}`}>
-                      <Button
-                       variant="ghost"
-                       className="p-0 h-auto text-primary hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform"
-                      >
-                        Czytaj więcej
-                        <ArrowRight className="w-4 h-4 ml-1" />
-                      </Button>
-                    </Link>
+                          Czytaj więcej
+                          <ArrowRight className="w-4 h-4 ml-1" />
+                        </Button>
+                      </div>
                     </div>
                   </Card>
+                </Link>
               ))}
             </div>
           </>

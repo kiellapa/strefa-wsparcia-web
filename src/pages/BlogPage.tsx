@@ -165,74 +165,79 @@ const BlogPage = () => {
         {filteredPosts.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post, index) => (
-              <Card
+              <Link
                 key={post.id}
-                className="overflow-hidden rounded-3xl border-border/30 group hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                to={`/blog/${post.id}`} // <-- Używamy ID
+                className="block group h-full"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                {post.image && (
-                  <div className="relative overflow-hidden h-48">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    {post.featured && (
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
-                          Wyróżnione
-                        </span>
+                <Card
+                  className="overflow-hidden rounded-3xl border-border/30 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
+                >
+                  {post.image && (
+                    <div className="relative overflow-hidden h-48">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      {post.featured && (
+                        <div className="absolute top-4 left-4">
+                          <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
+                            Wyróżnione
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="w-4 h-4" />
+                        <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
                       </div>
-                    )}
-                  </div>
-                )}
-
-                <div className="p-6">
-                  <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-4">
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>{new Date(post.date).toLocaleDateString('pl-PL')}</span>
+                      <div className="flex items-center space-x-1">
+                        <Clock className="w-4 h-4" />
+                        <span>{post.readTime}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <Clock className="w-4 h-4" />
-                      <span>{post.readTime}</span>
-                    </div>
-                  </div>
 
-                  <div className="mb-3 flex flex-wrap gap-2">
-                    {post.categories.map((cat, idx) => (
-                      <span
-                        key={idx}
-                        className={`text-xs font-medium px-2 py-1 rounded-full ${
-                          cat === 'Nauka' ? 'bg-clay-soft text-clay' :
-                          cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
-                          'bg-accent-soft text-accent-dark'
-                        }`}
+                    <div className="mb-3 flex flex-wrap gap-2">
+                      {post.categories.map((cat, idx) => (
+                        <span
+                          key={idx}
+                          className={`text-xs font-medium px-2 py-1 rounded-full ${
+                            cat === 'Nauka' ? 'bg-clay-soft text-clay' :
+                            cat === 'Praktyka' ? 'bg-moss-soft text-moss' :
+                            'bg-accent-soft text-accent-dark'
+                          }`}
+                        >
+                          {cat}
+                        </span>
+                      ))}
+                    </div>
+
+                    <h2 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h2>
+
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4 flex-grow">
+                      {post.excerpt}
+                    </p>
+
+                    <div className="mt-auto pt-4">
+                      <Button
+                        variant="ghost"
+                        className="p-0 h-auto text-primary group-hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform pointer-events-none"
                       >
-                        {cat}
-                      </span>
-                    ))}
+                        Czytaj więcej
+                        <ArrowRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
                   </div>
-
-                  <h2 className="text-lg font-medium text-foreground mb-3 font-serif leading-tight group-hover:text-primary transition-colors">
-                    {post.title}
-                  </h2>
-
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                    {post.excerpt}
-                  </p>
-
-                  <Link to={`/blog/${post.id}`}>
-                    <Button
-                      variant="ghost"
-                      className="p-0 h-auto text-primary hover:text-primary-dark font-medium text-sm group-hover:translate-x-1 transition-transform"
-                    >
-                      Czytaj więcej
-                      <ArrowRight className="w-4 h-4 ml-1" />
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
+                </Card>
+              </Link>
             ))}
           </div>
         ) : (
