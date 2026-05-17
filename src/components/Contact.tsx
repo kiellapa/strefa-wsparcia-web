@@ -46,13 +46,21 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      // Pamiętaj, aby wstawić tutaj swój produkcyjny URL z n8n
-      const response = await fetch("https://n8nkiell.byst.re/webhook/87c76d22-089c-48d2-8f2b-ec1b8a6be2dd", {
+      const payload = {
+        ...formData,
+        access_key: "72f794d8-d624-40b7-a3a4-35e4044e01b6",
+        from_name: "Strefa Wsparcia - Formularz",
+        subject: `Nowa wiadomość ze strony: ${formData.subject}`,
+        replyto: formData.email,
+      };
+
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
