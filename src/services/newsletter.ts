@@ -21,26 +21,35 @@ export const subscribeToNewsletter = async (
     );
   }
 
-  const response = await fetch(NEWSLETTER_WEBHOOK_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  // Używamy URLSearchParams, bo endpoint /jsonp/ MailerLite tego oczekuje
+  const formData = new URLSearchParams();
+  formData.append("fields[email]", payload.email);
 
-  if (!response.ok) {
-    let errorMessage = "Nie udało się zapisać do newslettera.";
+  try {
+    const response = await fetch(NEWSLETTER_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json"
+      },
+      body: formData.toString(),
+    });
 
-    try {
-      const data = await response.json();
-      if (typeof data?.message === "string" && data.message.length > 0) {
-        errorMessage = data.message;
-      }
-    } catch (error) {
-      // Ignorujemy błąd parsowania – użyjemy domyślnego komunikatu
+    if (!response.ok) {
+      throw new NewsletterError("Nie udało się zapisać do newslettera.");
     }
 
-    throw new NewsletterError(errorMessage);
+    // MailerLite zwraca JSON z odpowiedzią, możemy sprawdzić czy ma flagę success
+    const data = await response.json().catch(() => null);
+    if (data && data.success === false) {
+      // Częsty przypadek: adres e-mail z czarnej listy lub błędny format
+      throw new NewsletterError("Wystąpił problem z weryfikacją adresu e-mail.");
+    }
+  } catch (error) {
+    if (error instanceof NewsletterError) {
+      throw error;
+    }
+    // Błędy sieciowe (np. uBlock zablokował skrypt śledzący)
+    throw new NewsletterError("Błąd sieci. Sprawdź połączenie lub wyłącz adblocka na czas zapisu.");
   }
 };
